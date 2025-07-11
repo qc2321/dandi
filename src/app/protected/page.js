@@ -59,7 +59,7 @@ export default function ProtectedPage() {
 
                 if (isValidKey) {
                     console.log("🎉 API key is valid!");
-                    showSuccessToast("Valid API key, /protected can be accessed");
+                    showSuccessToast("Valid API key");
                 } else {
                     console.log("❌ API key is invalid");
                     showErrorToast("Invalid API key");
@@ -128,7 +128,7 @@ export default function ProtectedPage() {
                         </h1>
                         <p className="text-gray-600">
                             {isValid
-                                ? 'Your API key is valid and you can access protected routes.'
+                                ? 'Your API key is valid and you can access protected pages.'
                                 : 'Your API key is invalid. Please try again with a valid key.'
                             }
                         </p>
