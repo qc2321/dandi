@@ -67,7 +67,7 @@ export default function ApiKeyModal({
                 </div>
 
                 <div className="text-xs text-gray-400 mb-6">
-                    * If the combined usage of all your keys exceeds your plan's limit, all requests will be rejected.
+                    * If the combined usage of all your keys exceeds your plan&apos;s limit, all requests will be rejected.
                 </div>
 
                 <div className="flex gap-3 justify-end">
