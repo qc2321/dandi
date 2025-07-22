@@ -10,11 +10,19 @@
   },
   "dependencies": {
     "@heroicons/react": "^2.2.0",
+    "@langchain/community": "^0.3.49",
+    "@langchain/core": "^0.3.66",
+    "@langchain/openai": "^0.6.2",
     "@supabase/supabase-js": "^2.50.3",
+    "langchain": "^0.3.30",
     "next": "15.3.5",
     "react": "^19.0.0",
     "react-dom": "^19.0.0",
+    "typescript": "^5.8.3",
     "uuid": "^11.1.0"
+  },
+  "resolutions": {
+    "@langchain/core": "^0.3.66"
   },
   "devDependencies": {
     "@eslint/eslintrc": "^3",
