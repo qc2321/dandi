@@ -48,7 +48,6 @@ export async function POST(request) {
             if (githubUrl) {
                 try {
                     const readmeContent = await getReadmeContent(githubUrl);
-                    console.log('README Content:', readmeContent);
 
                     // Summarize the README content using LangChain
                     const summary = await summarizeReadme(readmeContent);
@@ -62,8 +61,7 @@ export async function POST(request) {
                             name: data.name,
                             usage: data.usage,
                             summary: summary.summary,
-                            cool_facts: summary.cool_facts,
-                            readmeContent: readmeContent
+                            cool_facts: summary.cool_facts
                         }
                     });
                 } catch (readmeError) {
