@@ -1,5 +1,6 @@
 import { NextResponse } from 'next/server';
 import { createClient } from '@supabase/supabase-js';
+import { summarizeReadme } from './chain';
 
 const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL;
 const supabaseAnonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY;
@@ -43,19 +44,25 @@ export async function POST(request) {
         const isValidKey = data && data.value === apiKey.trim();
 
         if (isValidKey) {
-            // If GitHub URL is provided, fetch and return README content
+            // If GitHub URL is provided, fetch and summarize README content
             if (githubUrl) {
                 try {
                     const readmeContent = await getReadmeContent(githubUrl);
                     console.log('README Content:', readmeContent);
 
+                    // Summarize the README content using LangChain
+                    const summary = await summarizeReadme(readmeContent);
+                    console.log('Summary:', summary);
+
                     return NextResponse.json({
                         success: true,
-                        message: 'API key is valid and README content retrieved',
+                        message: 'API key is valid and repository summarized',
                         data: {
                             id: data.id,
                             name: data.name,
                             usage: data.usage,
+                            summary: summary.summary,
+                            cool_facts: summary.cool_facts,
                             readmeContent: readmeContent
                         }
                     });
@@ -154,3 +161,6 @@ async function getReadmeContent(githubUrl) {
         throw new Error('Failed to fetch repository README');
     }
 }
+
+
+
