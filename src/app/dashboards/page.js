@@ -8,6 +8,7 @@ import Toast from "../../components/Toast";
 import PlanOverview from "../../components/PlanOverview";
 import ApiKeysTable from "../../components/ApiKeysTable";
 import ApiKeyModal from "../../components/ApiKeyModal";
+import ProtectedRoute from "../../components/ProtectedRoute";
 
 export default function Dashboard() {
     const [showKey, setShowKey] = useState({});
@@ -81,42 +82,44 @@ export default function Dashboard() {
     };
 
     return (
-        <div className="min-h-screen bg-[#f8fafc] py-10 px-2 sm:px-4">
-            {/* Toast Notification */}
-            <Toast toast={toast} onClose={hideToast} />
+        <ProtectedRoute>
+            <div className="min-h-screen bg-[#f8fafc] py-10 px-2 sm:px-4">
+                {/* Toast Notification */}
+                <Toast toast={toast} onClose={hideToast} />
 
-            <div className="max-w-6xl mx-auto">
-                {/* Overview Heading */}
-                <h1 className="text-3xl sm:text-4xl font-bold text-gray-900 mb-8">Overview</h1>
+                <div className="max-w-6xl mx-auto">
+                    {/* Overview Heading */}
+                    <h1 className="text-3xl sm:text-4xl font-bold text-gray-900 mb-8">Overview</h1>
 
-                {/* Plan Overview */}
-                <PlanOverview
-                    payAsYouGo={payAsYouGo}
-                    onPayAsYouGoChange={() => setPayAsYouGo(v => !v)}
-                />
+                    {/* Plan Overview */}
+                    <PlanOverview
+                        payAsYouGo={payAsYouGo}
+                        onPayAsYouGoChange={() => setPayAsYouGo(v => !v)}
+                    />
 
-                {/* API Keys Table */}
-                <ApiKeysTable
-                    apiKeys={apiKeys}
-                    loading={loading}
-                    showKey={showKey}
-                    onToggleKey={handleToggleKey}
-                    onCopy={handleCopy}
-                    onEdit={handleEdit}
-                    onDelete={handleDelete}
-                    onAddKey={openModal}
+                    {/* API Keys Table */}
+                    <ApiKeysTable
+                        apiKeys={apiKeys}
+                        loading={loading}
+                        showKey={showKey}
+                        onToggleKey={handleToggleKey}
+                        onCopy={handleCopy}
+                        onEdit={handleEdit}
+                        onDelete={handleDelete}
+                        onAddKey={openModal}
+                    />
+                </div>
+
+                {/* API Key Modal */}
+                <ApiKeyModal
+                    showModal={showModal}
+                    editId={editId}
+                    form={form}
+                    onClose={closeModal}
+                    onSubmit={handleCreateOrEdit}
+                    onFormChange={handleFormChange}
                 />
             </div>
-
-            {/* API Key Modal */}
-            <ApiKeyModal
-                showModal={showModal}
-                editId={editId}
-                form={form}
-                onClose={closeModal}
-                onSubmit={handleCreateOrEdit}
-                onFormChange={handleFormChange}
-            />
-        </div>
+        </ProtectedRoute>
     );
 } 

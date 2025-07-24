@@ -9,6 +9,8 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@auth/core": "^0.40.0",
+    "@auth/nextjs": "^0.0.0-380f8d56",
     "@heroicons/react": "^2.2.0",
     "@langchain/community": "^0.3.49",
     "@langchain/core": "^0.3.66",
@@ -16,6 +18,7 @@
     "@supabase/supabase-js": "^2.50.3",
     "langchain": "^0.3.30",
     "next": "15.3.5",
+    "next-auth": "^4.24.11",
     "react": "^19.0.0",
     "react-dom": "^19.0.0",
     "typescript": "^5.8.3",
