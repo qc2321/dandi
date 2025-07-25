@@ -1,4 +1,5 @@
 import Image from "next/image";
+import LoginButton from "../components/LoginButton";
 
 export default function Home() {
   return (
@@ -12,6 +13,14 @@ export default function Home() {
           height={38}
           priority
         />
+
+        <div className="text-center sm:text-left">
+          <h1 className="text-2xl font-bold mb-4">Welcome to Your App</h1>
+          <p className="text-gray-600 mb-6">Sign in with Google to access your dashboard and manage API keys.</p>
+        </div>
+
+        <LoginButton />
+
         <ol className="list-inside list-decimal text-sm/6 text-center sm:text-left font-[family-name:var(--font-geist-mono)]">
           <li className="mb-2 tracking-[-.01em]">
             Click{" "}
