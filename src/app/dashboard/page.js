@@ -1,10 +1,23 @@
 "use client";
 
 import { useSession } from "next-auth/react";
+import { useUser } from "../../hooks/useUser";
 import ProtectedRoute from "../../components/ProtectedRoute";
 
 function DashboardContent() {
     const { data: session } = useSession();
+    const { userData, loading, error } = useUser();
+
+    const formatDate = (dateString) => {
+        if (!dateString) return "Not available";
+        return new Date(dateString).toLocaleDateString('en-US', {
+            year: 'numeric',
+            month: 'long',
+            day: 'numeric',
+            hour: '2-digit',
+            minute: '2-digit'
+        });
+    };
 
     return (
         <div className="min-h-screen bg-gray-50 p-8">
@@ -21,6 +34,15 @@ function DashboardContent() {
                             <p><strong>Name:</strong> {session?.user?.name || "Not provided"}</p>
                             <p><strong>Email:</strong> {session?.user?.email || "Not provided"}</p>
                             <p><strong>Provider:</strong> Google</p>
+                            {loading && <p><strong>Loading user data...</strong></p>}
+                            {error && <p className="text-red-600"><strong>Error:</strong> {error}</p>}
+                            {userData && (
+                                <>
+                                    <p><strong>Member since:</strong> {formatDate(userData.created_at)}</p>
+                                    <p><strong>Last login:</strong> {formatDate(userData.last_login)}</p>
+                                    <p><strong>Account ID:</strong> {userData.id}</p>
+                                </>
+                            )}
                         </div>
                     </div>
                 </div>

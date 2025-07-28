@@ -1,5 +1,6 @@
 import NextAuth from "next-auth";
 import GoogleProvider from "next-auth/providers/google";
+import { supabase } from "../../../../../lib/supabaseClient";
 
 const handler = NextAuth({
     providers: [
@@ -14,6 +15,61 @@ const handler = NextAuth({
         error: "/auth/error",
     },
     callbacks: {
+        async signIn({ user, account, profile }) {
+            if (account?.provider === "google") {
+                try {
+                    // Check if user already exists in Supabase
+                    const { data: existingUser, error: fetchError } = await supabase
+                        .from("users")
+                        .select("id, email, name, image, provider")
+                        .eq("email", user.email)
+                        .single();
+
+                    if (fetchError && fetchError.code !== 'PGRST116') {
+                        console.error("Error checking existing user:", fetchError);
+                        return true; // Allow sign in even if database check fails
+                    }
+
+                    if (!existingUser) {
+                        // User doesn't exist, create new user record
+                        const userData = {
+                            email: user.email,
+                            name: user.name,
+                            image: user.image,
+                            provider: account.provider,
+                            created_at: new Date().toISOString(),
+                            updated_at: new Date().toISOString(),
+                        };
+
+                        const { error: insertError } = await supabase
+                            .from("users")
+                            .insert([userData]);
+
+                        if (insertError) {
+                            console.error("Error creating user:", insertError);
+                            // Still allow sign in even if database insert fails
+                        }
+                    } else {
+                        // User exists, update last login time
+                        const { error: updateError } = await supabase
+                            .from("users")
+                            .update({
+                                updated_at: new Date().toISOString(),
+                                last_login: new Date().toISOString()
+                            })
+                            .eq("email", user.email);
+
+                        if (updateError) {
+                            console.error("Error updating user login time:", updateError);
+                        }
+                    }
+                } catch (error) {
+                    console.error("Error in signIn callback:", error);
+                    // Allow sign in even if database operations fail
+                }
+            }
+            return true;
+        },
         async jwt({ token, user, account }) {
             // Persist the OAuth access_token to the token right after signin
             if (account && user) {
