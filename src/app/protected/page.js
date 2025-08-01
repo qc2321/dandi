@@ -89,16 +89,16 @@ function ProtectedPageContent() {
 
     if (isValidating) {
         return (
-            <div className="min-h-screen bg-gray-50 flex items-center justify-center">
+            <div className="min-h-screen bg-gray-50 flex items-center justify-center p-4">
                 <div className="text-center">
-                    <div className="inline-block w-12 h-12 bg-gradient-to-tr from-blue-400 via-yellow-300 to-red-400 rounded-xl flex items-center justify-center mb-4">
-                        <svg className="animate-spin h-6 w-6 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                    <div className="inline-block w-10 h-10 sm:w-12 sm:h-12 bg-gradient-to-tr from-blue-400 via-yellow-300 to-red-400 rounded-xl flex items-center justify-center mb-3 sm:mb-4">
+                        <svg className="animate-spin h-5 w-5 sm:h-6 sm:w-6 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
                             <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
                             <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
                         </svg>
                     </div>
-                    <h2 className="text-xl font-semibold text-gray-900 mb-2">Validating API Key...</h2>
-                    <p className="text-gray-600">Please wait while we verify your credentials</p>
+                    <h2 className="text-lg sm:text-xl font-semibold text-gray-900 mb-2">Validating API Key...</h2>
+                    <p className="text-gray-600 text-sm sm:text-base">Please wait while we verify your credentials</p>
                 </div>
             </div>
         );
@@ -107,26 +107,26 @@ function ProtectedPageContent() {
     return (
         <div className="min-h-screen bg-gray-50 flex items-center justify-center p-4">
             <div className="max-w-md w-full">
-                <div className="bg-white rounded-2xl shadow-xl p-8">
-                    <div className="text-center mb-8">
-                        <div className={`inline-block w-12 h-12 rounded-xl flex items-center justify-center mb-4 ${isValid
+                <div className="bg-white rounded-2xl shadow-xl p-4 sm:p-6 lg:p-8">
+                    <div className="text-center mb-6 sm:mb-8">
+                        <div className={`inline-block w-10 h-10 sm:w-12 sm:h-12 rounded-xl flex items-center justify-center mb-3 sm:mb-4 ${isValid
                             ? 'bg-green-100'
                             : 'bg-red-100'
                             }`}>
                             {isValid ? (
-                                <svg className="w-6 h-6 text-green-600" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
+                                <svg className="w-5 h-5 sm:w-6 sm:h-6 text-green-600" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
                                     <path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" />
                                 </svg>
                             ) : (
-                                <svg className="w-6 h-6 text-red-600" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
+                                <svg className="w-5 h-5 sm:w-6 sm:h-6 text-red-600" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
                                     <path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" />
                                 </svg>
                             )}
                         </div>
-                        <h1 className="text-2xl font-bold text-gray-900 mb-2">
+                        <h1 className="text-xl sm:text-2xl font-bold text-gray-900 mb-2">
                             {isValid ? 'Access Granted' : 'Access Denied'}
                         </h1>
-                        <p className="text-gray-600">
+                        <p className="text-gray-600 text-sm sm:text-base">
                             {isValid
                                 ? 'Your API key is valid and you can access protected pages.'
                                 : 'Your API key is invalid. Please try again with a valid key.'
@@ -134,28 +134,28 @@ function ProtectedPageContent() {
                         </p>
                     </div>
 
-                    <div className="space-y-4">
-                        <div className={`p-4 rounded-xl ${isValid ? 'bg-green-50 border border-green-200' : 'bg-red-50 border border-red-200'
+                    <div className="space-y-3 sm:space-y-4">
+                        <div className={`p-3 sm:p-4 rounded-xl ${isValid ? 'bg-green-50 border border-green-200' : 'bg-red-50 border border-red-200'
                             }`}>
                             <div className="flex items-start">
-                                <div className={`flex-shrink-0 w-5 h-5 rounded-full flex items-center justify-center ${isValid ? 'bg-green-500' : 'bg-red-500'
+                                <div className={`flex-shrink-0 w-4 h-4 sm:w-5 sm:h-5 rounded-full flex items-center justify-center ${isValid ? 'bg-green-500' : 'bg-red-500'
                                     }`}>
                                     {isValid ? (
-                                        <svg className="w-3 h-3 text-white" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
+                                        <svg className="w-2 h-2 sm:w-3 sm:h-3 text-white" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
                                             <path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" />
                                         </svg>
                                     ) : (
-                                        <svg className="w-3 h-3 text-white" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
+                                        <svg className="w-2 h-2 sm:w-3 sm:h-3 text-white" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
                                             <path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" />
                                         </svg>
                                     )}
                                 </div>
-                                <div className="ml-3">
-                                    <h3 className={`text-sm font-medium ${isValid ? 'text-green-800' : 'text-red-800'
+                                <div className="ml-2 sm:ml-3">
+                                    <h3 className={`text-xs sm:text-sm font-medium ${isValid ? 'text-green-800' : 'text-red-800'
                                         }`}>
                                         {isValid ? 'Validation Successful' : 'Validation Failed'}
                                     </h3>
-                                    <p className={`text-sm mt-1 ${isValid ? 'text-green-700' : 'text-red-700'
+                                    <p className={`text-xs sm:text-sm mt-1 ${isValid ? 'text-green-700' : 'text-red-700'
                                         }`}>
                                         {isValid
                                             ? 'Your API key has been verified and you have access to protected resources.'
@@ -167,15 +167,15 @@ function ProtectedPageContent() {
                         </div>
 
                         {isValid ? (
-                            <div className="space-y-3">
+                            <div className="space-y-2 sm:space-y-3">
                                 <button
-                                    className="w-full bg-green-600 text-white font-semibold py-3 px-6 rounded-xl hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-offset-2 transition-all duration-200"
+                                    className="w-full bg-green-600 text-white font-semibold py-2 sm:py-3 px-4 sm:px-6 rounded-xl hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-offset-2 transition-all duration-200 text-sm sm:text-base"
                                 >
                                     Access Protected Content
                                 </button>
                                 <button
                                     onClick={handleBackToPlayground}
-                                    className="w-full bg-gray-900 text-white font-semibold py-3 px-6 rounded-xl hover:bg-gray-800 focus:outline-none focus:ring-2 focus:ring-gray-500 focus:ring-offset-2 transition-all duration-200"
+                                    className="w-full bg-gray-900 text-white font-semibold py-2 sm:py-3 px-4 sm:px-6 rounded-xl hover:bg-gray-800 focus:outline-none focus:ring-2 focus:ring-gray-500 focus:ring-offset-2 transition-all duration-200 text-sm sm:text-base"
                                 >
                                     Back to Playground
                                 </button>
@@ -183,7 +183,7 @@ function ProtectedPageContent() {
                         ) : (
                             <button
                                 onClick={handleBackToPlayground}
-                                className="w-full bg-gray-900 text-white font-semibold py-3 px-6 rounded-xl hover:bg-gray-800 focus:outline-none focus:ring-2 focus:ring-gray-500 focus:ring-offset-2 transition-all duration-200"
+                                className="w-full bg-gray-900 text-white font-semibold py-2 sm:py-3 px-4 sm:px-6 rounded-xl hover:bg-gray-800 focus:outline-none focus:ring-2 focus:ring-gray-500 focus:ring-offset-2 transition-all duration-200 text-sm sm:text-base"
                             >
                                 Back to Playground
                             </button>
@@ -199,16 +199,16 @@ function ProtectedPageContent() {
 export default function ProtectedPage() {
     return (
         <Suspense fallback={
-            <div className="min-h-screen bg-gray-50 flex items-center justify-center">
+            <div className="min-h-screen bg-gray-50 flex items-center justify-center p-4">
                 <div className="text-center">
-                    <div className="inline-block w-12 h-12 bg-gradient-to-tr from-blue-400 via-yellow-300 to-red-400 rounded-xl flex items-center justify-center mb-4">
-                        <svg className="animate-spin h-6 w-6 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                    <div className="inline-block w-10 h-10 sm:w-12 sm:h-12 bg-gradient-to-tr from-blue-400 via-yellow-300 to-red-400 rounded-xl flex items-center justify-center mb-3 sm:mb-4">
+                        <svg className="animate-spin h-5 w-5 sm:h-6 sm:w-6 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
                             <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
                             <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
                         </svg>
                     </div>
-                    <h2 className="text-xl font-semibold text-gray-900 mb-2">Loading...</h2>
-                    <p className="text-gray-600">Please wait</p>
+                    <h2 className="text-lg sm:text-xl font-semibold text-gray-900 mb-2">Loading...</h2>
+                    <p className="text-gray-600 text-sm sm:text-base">Please wait</p>
                 </div>
             </div>
         }>

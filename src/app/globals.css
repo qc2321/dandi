@@ -48,6 +48,7 @@
     opacity: 0;
     transform: translate(-50%, 1rem);
   }
+
   to {
     opacity: 1;
     transform: translate(-50%, 0);
@@ -131,7 +132,81 @@
   * {
     @apply border-border outline-ring/50;
   }
+
   body {
     @apply bg-background text-foreground;
+  }
+}
+
+/* Mobile-specific improvements */
+@layer utilities {
+
+  /* Improve scrolling on mobile */
+  .scroll-smooth {
+    scroll-behavior: smooth;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  /* Prevent text selection on interactive elements */
+  .no-select {
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+  }
+
+  /* Improve focus states for mobile */
+  .focus-visible {
+    outline: 2px solid transparent;
+    outline-offset: 2px;
+  }
+
+  .focus-visible:focus {
+    outline: 2px solid currentColor;
+    outline-offset: 2px;
+  }
+
+  /* Better table responsiveness */
+  .table-responsive {
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  /* Better form input sizing on mobile */
+  input,
+  textarea,
+  select {
+    font-size: 16px;
+    /* Prevents zoom on iOS */
+  }
+
+  /* Improve modal scrolling on mobile */
+  .modal-content {
+    max-height: 90vh;
+    overflow-y: auto;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  /* Better spacing for mobile */
+  .mobile-spacing {
+    @apply space-y-4 sm:space-y-6;
+  }
+
+  .mobile-padding {
+    @apply p-4 sm:p-6 lg:p-8;
+  }
+
+  /* Improve sidebar transitions on mobile */
+  .sidebar-transition {
+    transition: transform 0.3s ease-in-out, width 0.3s ease-in-out;
+  }
+
+  /* Better text sizing for mobile */
+  .mobile-text {
+    @apply text-sm sm:text-base;
+  }
+
+  .mobile-heading {
+    @apply text-xl sm:text-2xl lg:text-3xl;
   }
 }

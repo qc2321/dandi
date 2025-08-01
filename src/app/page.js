@@ -91,12 +91,12 @@ export default function LandingPage() {
             <div className="w-8 h-8 bg-gradient-to-br from-purple-600 to-blue-600 rounded-lg flex items-center justify-center">
               <BarChart3 />
             </div>
-            <span className="text-xl font-bold text-gray-900">Dandi GitHub Analyzer</span>
+            <span className="text-lg sm:text-xl font-bold text-gray-900">Dandi GitHub Analyzer</span>
           </div>
-          <div className="flex items-center space-x-4">
+          <div className="flex items-center space-x-2 sm:space-x-4">
             {session ? (
               <>
-                <div className="flex items-center gap-2">
+                <div className="hidden sm:flex items-center gap-2">
                   {session.user?.image && (
                     <img
                       src={session.user.image}
@@ -108,13 +108,13 @@ export default function LandingPage() {
                     {session.user?.name || session.user?.email}
                   </span>
                 </div>
-                <Button variant="ghost" asChild>
+                <Button variant="ghost" size="sm" className="hidden sm:inline-flex" asChild>
                   <a href="/dashboard">Dashboard</a>
                 </Button>
-                <Button variant="ghost" asChild>
+                <Button variant="ghost" size="sm" className="hidden sm:inline-flex" asChild>
                   <a href="/dashboards">Manage API Keys</a>
                 </Button>
-                <Button variant="ghost" onClick={() => signOut()}>
+                <Button variant="ghost" size="sm" onClick={() => signOut()}>
                   Sign Out
                 </Button>
               </>
@@ -126,25 +126,25 @@ export default function LandingPage() {
       </header>
 
       {/* Hero Section */}
-      <section className="py-20 px-4">
+      <section className="py-12 sm:py-20 px-4">
         <div className="container mx-auto text-center max-w-4xl">
-          <Badge className="mb-4 bg-gradient-to-r from-yellow-400 to-orange-500 text-gray-900 border-0 shadow-sm" variant="secondary">
+          <Badge className="mb-4 bg-gradient-to-r from-yellow-400 to-orange-500 text-gray-900 border-0 shadow-sm text-xs sm:text-sm" variant="secondary">
             <Zap />
             <span className="ml-1">AI-Powered Repository Analysis</span>
           </Badge>
-          <h1 className="text-5xl font-bold text-gray-900 mb-6 leading-tight">
+          <h1 className="text-3xl sm:text-4xl md:text-5xl font-bold text-gray-900 mb-4 sm:mb-6 leading-tight">
             Unlock Deep Insights from Any{" "}
             <span className="bg-gradient-to-r from-purple-600 to-blue-600 bg-clip-text text-transparent">
               GitHub Repository
             </span>
           </h1>
-          <p className="text-xl text-gray-600 mb-8 leading-relaxed">
+          <p className="text-lg sm:text-xl text-gray-600 mb-6 sm:mb-8 leading-relaxed px-4">
             Get comprehensive analysis, trending metrics, important pull requests, and version updates for any open
             source GitHub repository in seconds.
           </p>
 
           {/* Original Login Instructions */}
-          <div className="bg-white rounded-lg shadow-lg p-8 mb-8 text-left">
+          <div className="bg-white rounded-lg shadow-lg p-4 sm:p-8 mb-6 sm:mb-8 text-left mx-4">
             <ol className="list-inside list-decimal text-sm/6 font-mono space-y-2">
               <li className="tracking-[-.01em]">
                 {session ? (
@@ -169,32 +169,32 @@ export default function LandingPage() {
             </ol>
           </div>
 
-          <div className="flex flex-col sm:flex-row gap-4 justify-center">
+          <div className="flex flex-col sm:flex-row gap-3 sm:gap-4 justify-center px-4">
             {status === "loading" ? (
-              <Button size="lg" className="text-lg px-8 py-3 bg-gradient-to-r from-yellow-400 to-orange-500 text-gray-900 hover:from-yellow-500 hover:to-orange-600 shadow-lg hover:shadow-xl transition-all duration-200 transform hover:scale-105" disabled>
+              <Button size="lg" className="text-base sm:text-lg px-6 sm:px-8 py-3 bg-gradient-to-r from-yellow-400 to-orange-500 text-gray-900 hover:from-yellow-500 hover:to-orange-600 shadow-lg hover:shadow-xl transition-all duration-200 transform hover:scale-105" disabled>
                 Loading...
               </Button>
             ) : session ? (
               <>
-                <Button size="lg" className="text-lg px-8 py-3 bg-gradient-to-r from-yellow-400 to-orange-500 text-gray-900 hover:from-yellow-500 hover:to-orange-600 shadow-lg hover:shadow-xl transition-all duration-200 transform hover:scale-105" asChild>
+                <Button size="lg" className="text-base sm:text-lg px-6 sm:px-8 py-3 bg-gradient-to-r from-yellow-400 to-orange-500 text-gray-900 hover:from-yellow-500 hover:to-orange-600 shadow-lg hover:shadow-xl transition-all duration-200 transform hover:scale-105" asChild>
                   <a href="/dashboards">
                     <KeyIcon />
-                    Manage API Keys
+                    <span className="ml-2">Manage API Keys</span>
                   </a>
                 </Button>
-                <Button size="lg" variant="outline" className="text-lg px-8 py-3 bg-white border-2 border-gray-200 text-gray-700 hover:bg-gray-50 hover:border-gray-300 shadow-lg hover:shadow-xl transition-all duration-200 transform hover:scale-105" asChild>
+                <Button size="lg" variant="outline" className="text-base sm:text-lg px-6 sm:px-8 py-3 bg-white border-2 border-gray-200 text-gray-700 hover:bg-gray-50 hover:border-gray-300 shadow-lg hover:shadow-xl transition-all duration-200 transform hover:scale-105" asChild>
                   <a href="/dashboard">
                     <DashboardIcon />
-                    Dashboard
+                    <span className="ml-2">Dashboard</span>
                   </a>
                 </Button>
-                <Button size="lg" variant="outline" className="text-lg px-8 py-3 bg-white border-2 border-gray-200 text-gray-700 hover:bg-gray-50 hover:border-gray-300 shadow-lg hover:shadow-xl transition-all duration-200 transform hover:scale-105" asChild>
+                <Button size="lg" variant="outline" className="text-base sm:text-lg px-6 sm:px-8 py-3 bg-white border-2 border-gray-200 text-gray-700 hover:bg-gray-50 hover:border-gray-300 shadow-lg hover:shadow-xl transition-all duration-200 transform hover:scale-105" asChild>
                   <a href="/playground">Try Playground</a>
                 </Button>
               </>
             ) : (
               <>
-                <Button size="lg" className="text-lg px-8 py-3 bg-gradient-to-r from-yellow-400 to-orange-500 text-gray-900 hover:from-yellow-500 hover:to-orange-600 shadow-lg hover:shadow-xl transition-all duration-200 transform hover:scale-105" onClick={() => signIn("google")}>
+                <Button size="lg" className="text-base sm:text-lg px-6 sm:px-8 py-3 bg-gradient-to-r from-yellow-400 to-orange-500 text-gray-900 hover:from-yellow-500 hover:to-orange-600 shadow-lg hover:shadow-xl transition-all duration-200 transform hover:scale-105" onClick={() => signIn("google")}>
                   <svg className="w-5 h-5" viewBox="0 0 24 24">
                     <path
                       fill="currentColor"
@@ -213,11 +213,11 @@ export default function LandingPage() {
                       d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z"
                     />
                   </svg>
-                  Sign in with Google
+                  <span className="ml-2">Sign in with Google</span>
                 </Button>
-                <Button size="lg" variant="outline" className="text-lg px-8 py-3 bg-white border-2 border-gray-200 text-gray-700 hover:bg-gray-50 hover:border-gray-300 shadow-lg hover:shadow-xl transition-all duration-200 transform hover:scale-105">
+                <Button size="lg" variant="outline" className="text-base sm:text-lg px-6 sm:px-8 py-3 bg-white border-2 border-gray-200 text-gray-700 hover:bg-gray-50 hover:border-gray-300 shadow-lg hover:shadow-xl transition-all duration-200 transform hover:scale-105">
                   <BookOpen />
-                  View Demo
+                  <span className="ml-2">View Demo</span>
                 </Button>
               </>
             )}
@@ -226,17 +226,17 @@ export default function LandingPage() {
       </section>
 
       {/* Features Section */}
-      <section className="py-20 px-4 bg-white">
+      <section className="py-12 sm:py-20 px-4 bg-white">
         <div className="container mx-auto max-w-6xl">
-          <div className="text-center mb-16">
-            <h2 className="text-3xl font-bold text-gray-900 mb-4">Everything You Need to Understand Any Repository</h2>
-            <p className="text-lg text-gray-600 max-w-2xl mx-auto">
+          <div className="text-center mb-12 sm:mb-16">
+            <h2 className="text-2xl sm:text-3xl font-bold text-gray-900 mb-4">Everything You Need to Understand Any Repository</h2>
+            <p className="text-base sm:text-lg text-gray-600 max-w-2xl mx-auto px-4">
               Our AI-powered analysis provides comprehensive insights that help developers, researchers, and teams make
               informed decisions.
             </p>
           </div>
 
-          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8">
             <Card className="border-0 shadow-lg hover:shadow-xl transition-all duration-300 transform hover:scale-105 bg-gradient-to-br from-blue-50 to-indigo-50">
               <CardHeader>
                 <div className="w-12 h-12 bg-gradient-to-br from-blue-500 to-indigo-600 rounded-xl flex items-center justify-center mb-4 shadow-lg">
@@ -313,39 +313,39 @@ export default function LandingPage() {
       </section>
 
       {/* Pricing Section */}
-      <section className="py-20 px-4 bg-gradient-to-br from-slate-50 to-slate-100">
+      <section className="py-12 sm:py-20 px-4 bg-gradient-to-br from-slate-50 to-slate-100">
         <div className="container mx-auto max-w-6xl">
-          <div className="text-center mb-16">
-            <h2 className="text-3xl font-bold text-gray-900 mb-4">Simple, Transparent Pricing</h2>
-            <p className="text-lg text-gray-600">Start free and scale as you grow. No hidden fees.</p>
+          <div className="text-center mb-12 sm:mb-16">
+            <h2 className="text-2xl sm:text-3xl font-bold text-gray-900 mb-4">Simple, Transparent Pricing</h2>
+            <p className="text-base sm:text-lg text-gray-600">Start free and scale as you grow. No hidden fees.</p>
           </div>
 
-          <div className="grid md:grid-cols-3 gap-8">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6 sm:gap-8">
             {/* Free Tier */}
             <Card className="border-2 border-gray-200 shadow-lg hover:shadow-xl transition-all duration-300 transform hover:scale-105 bg-white">
               <CardHeader className="text-center">
-                <CardTitle className="text-2xl">Free</CardTitle>
-                <div className="text-4xl font-bold text-gray-900 mt-4">
-                  $0<span className="text-lg font-normal text-gray-600">/month</span>
+                <CardTitle className="text-xl sm:text-2xl">Free</CardTitle>
+                <div className="text-3xl sm:text-4xl font-bold text-gray-900 mt-4">
+                  $0<span className="text-base sm:text-lg font-normal text-gray-600">/month</span>
                 </div>
                 <CardDescription className="mt-2">Perfect for getting started</CardDescription>
               </CardHeader>
               <CardContent className="space-y-4">
                 <div className="flex items-center space-x-3">
-                  <Check className="text-green-500" />
-                  <span>5 repository analyses per month</span>
+                  <Check className="text-green-500 flex-shrink-0" />
+                  <span className="text-sm sm:text-base">5 repository analyses per month</span>
                 </div>
                 <div className="flex items-center space-x-3">
-                  <Check className="text-green-500" />
-                  <span>Basic insights and summaries</span>
+                  <Check className="text-green-500 flex-shrink-0" />
+                  <span className="text-sm sm:text-base">Basic insights and summaries</span>
                 </div>
                 <div className="flex items-center space-x-3">
-                  <Check className="text-green-500" />
-                  <span>Star tracking</span>
+                  <Check className="text-green-500 flex-shrink-0" />
+                  <span className="text-sm sm:text-base">Star tracking</span>
                 </div>
                 <div className="flex items-center space-x-3">
-                  <Check className="text-green-500" />
-                  <span>Community support</span>
+                  <Check className="text-green-500 flex-shrink-0" />
+                  <span className="text-sm sm:text-base">Community support</span>
                 </div>
               </CardContent>
               <CardFooter>
@@ -358,39 +358,39 @@ export default function LandingPage() {
             {/* Pro Tier */}
             <Card className="border-2 border-yellow-400 shadow-xl relative bg-gradient-to-br from-yellow-50 to-orange-50 hover:shadow-2xl transition-all duration-300 transform hover:scale-105">
               <div className="absolute -top-3 left-1/2 transform -translate-x-1/2">
-                <Badge className="bg-gradient-to-r from-yellow-400 to-orange-500 text-gray-900 border-0 shadow-lg">Most Popular</Badge>
+                <Badge className="bg-gradient-to-r from-yellow-400 to-orange-500 text-gray-900 border-0 shadow-lg text-xs">Most Popular</Badge>
               </div>
               <CardHeader className="text-center">
-                <CardTitle className="text-2xl">Pro</CardTitle>
-                <div className="text-4xl font-bold text-gray-900 mt-4">
-                  $19<span className="text-lg font-normal text-gray-600">/month</span>
+                <CardTitle className="text-xl sm:text-2xl">Pro</CardTitle>
+                <div className="text-3xl sm:text-4xl font-bold text-gray-900 mt-4">
+                  $19<span className="text-base sm:text-lg font-normal text-gray-600">/month</span>
                 </div>
                 <CardDescription className="mt-2">For serious developers</CardDescription>
               </CardHeader>
               <CardContent className="space-y-4">
                 <div className="flex items-center space-x-3">
-                  <Check className="text-green-500" />
-                  <span>100 repository analyses per month</span>
+                  <Check className="text-green-500 flex-shrink-0" />
+                  <span className="text-sm sm:text-base">100 repository analyses per month</span>
                 </div>
                 <div className="flex items-center space-x-3">
-                  <Check className="text-green-500" />
-                  <span>Advanced AI insights</span>
+                  <Check className="text-green-500 flex-shrink-0" />
+                  <span className="text-sm sm:text-base">Advanced AI insights</span>
                 </div>
                 <div className="flex items-center space-x-3">
-                  <Check className="text-green-500" />
-                  <span>Pull request analysis</span>
+                  <Check className="text-green-500 flex-shrink-0" />
+                  <span className="text-sm sm:text-base">Pull request analysis</span>
                 </div>
                 <div className="flex items-center space-x-3">
-                  <Check className="text-green-500" />
-                  <span>Version tracking</span>
+                  <Check className="text-green-500 flex-shrink-0" />
+                  <span className="text-sm sm:text-base">Version tracking</span>
                 </div>
                 <div className="flex items-center space-x-3">
-                  <Check className="text-green-500" />
-                  <span>Priority support</span>
+                  <Check className="text-green-500 flex-shrink-0" />
+                  <span className="text-sm sm:text-base">Priority support</span>
                 </div>
                 <div className="flex items-center space-x-3">
-                  <Check className="text-green-500" />
-                  <span>Export reports</span>
+                  <Check className="text-green-500 flex-shrink-0" />
+                  <span className="text-sm sm:text-base">Export reports</span>
                 </div>
               </CardContent>
               <CardFooter>
@@ -403,36 +403,36 @@ export default function LandingPage() {
             {/* Enterprise Tier */}
             <Card className="border-2 border-gray-200 shadow-lg hover:shadow-xl transition-all duration-300 transform hover:scale-105 bg-white">
               <CardHeader className="text-center">
-                <CardTitle className="text-2xl">Enterprise</CardTitle>
-                <div className="text-4xl font-bold text-gray-900 mt-4">
-                  $99<span className="text-lg font-normal text-gray-600">/month</span>
+                <CardTitle className="text-xl sm:text-2xl">Enterprise</CardTitle>
+                <div className="text-3xl sm:text-4xl font-bold text-gray-900 mt-4">
+                  $99<span className="text-base sm:text-lg font-normal text-gray-600">/month</span>
                 </div>
                 <CardDescription className="mt-2">For teams and organizations</CardDescription>
               </CardHeader>
               <CardContent className="space-y-4">
                 <div className="flex items-center space-x-3">
-                  <Check className="text-green-500" />
-                  <span>Unlimited analyses</span>
+                  <Check className="text-green-500 flex-shrink-0" />
+                  <span className="text-sm sm:text-base">Unlimited analyses</span>
                 </div>
                 <div className="flex items-center space-x-3">
-                  <Check className="text-green-500" />
-                  <span>Team collaboration</span>
+                  <Check className="text-green-500 flex-shrink-0" />
+                  <span className="text-sm sm:text-base">Team collaboration</span>
                 </div>
                 <div className="flex items-center space-x-3">
-                  <Check className="text-green-500" />
-                  <span>Custom integrations</span>
+                  <Check className="text-green-500 flex-shrink-0" />
+                  <span className="text-sm sm:text-base">Custom integrations</span>
                 </div>
                 <div className="flex items-center space-x-3">
-                  <Check className="text-green-500" />
-                  <span>Advanced analytics</span>
+                  <Check className="text-green-500 flex-shrink-0" />
+                  <span className="text-sm sm:text-base">Advanced analytics</span>
                 </div>
                 <div className="flex items-center space-x-3">
-                  <Check className="text-green-500" />
-                  <span>Dedicated support</span>
+                  <Check className="text-green-500 flex-shrink-0" />
+                  <span className="text-sm sm:text-base">Dedicated support</span>
                 </div>
                 <div className="flex items-center space-x-3">
-                  <Check className="text-green-500" />
-                  <span>SLA guarantee</span>
+                  <Check className="text-green-500 flex-shrink-0" />
+                  <span className="text-sm sm:text-base">SLA guarantee</span>
                 </div>
               </CardContent>
               <CardFooter>
@@ -446,26 +446,26 @@ export default function LandingPage() {
       </section>
 
       {/* CTA Section */}
-      <section className="py-20 px-4 bg-gradient-to-r from-purple-600 to-blue-600">
+      <section className="py-12 sm:py-20 px-4 bg-gradient-to-r from-purple-600 to-blue-600">
         <div className="container mx-auto text-center max-w-4xl">
-          <h2 className="text-4xl font-bold text-white mb-6">Ready to Analyze Your First Repository?</h2>
-          <p className="text-xl text-purple-100 mb-8">
+          <h2 className="text-3xl sm:text-4xl font-bold text-white mb-4 sm:mb-6">Ready to Analyze Your First Repository?</h2>
+          <p className="text-lg sm:text-xl text-purple-100 mb-6 sm:mb-8 px-4">
             Join thousands of developers who trust Dandi GitHub Analyzer for their repository insights.
           </p>
-          <div className="flex flex-col sm:flex-row gap-4 justify-center">
+          <div className="flex flex-col sm:flex-row gap-3 sm:gap-4 justify-center px-4">
             {session ? (
-              <Button size="lg" className="bg-gradient-to-r from-yellow-400 to-orange-500 text-gray-900 hover:from-yellow-500 hover:to-orange-600 shadow-lg hover:shadow-xl transition-all duration-200 transform hover:scale-105 text-lg px-8 py-3" asChild>
+              <Button size="lg" className="bg-gradient-to-r from-yellow-400 to-orange-500 text-gray-900 hover:from-yellow-500 hover:to-orange-600 shadow-lg hover:shadow-xl transition-all duration-200 transform hover:scale-105 text-base sm:text-lg px-6 sm:px-8 py-3" asChild>
                 <a href="/dashboard">Go to Dashboard</a>
               </Button>
             ) : (
-              <Button size="lg" className="bg-gradient-to-r from-yellow-400 to-orange-500 text-gray-900 hover:from-yellow-500 hover:to-orange-600 shadow-lg hover:shadow-xl transition-all duration-200 transform hover:scale-105 text-lg px-8 py-3">
+              <Button size="lg" className="bg-gradient-to-r from-yellow-400 to-orange-500 text-gray-900 hover:from-yellow-500 hover:to-orange-600 shadow-lg hover:shadow-xl transition-all duration-200 transform hover:scale-105 text-base sm:text-lg px-6 sm:px-8 py-3">
                 Start Free Analysis
               </Button>
             )}
             <Button
               size="lg"
               variant="outline"
-              className="border-2 border-white text-white hover:bg-white hover:text-purple-600 shadow-lg hover:shadow-xl transition-all duration-200 transform hover:scale-105 text-lg px-8 py-3 bg-transparent"
+              className="border-2 border-white text-white hover:bg-white hover:text-purple-600 shadow-lg hover:shadow-xl transition-all duration-200 transform hover:scale-105 text-base sm:text-lg px-6 sm:px-8 py-3 bg-transparent"
             >
               Schedule Demo
             </Button>
@@ -474,21 +474,21 @@ export default function LandingPage() {
       </section>
 
       {/* Footer */}
-      <footer className="bg-gray-900 text-gray-300 py-12 px-4">
+      <footer className="bg-gray-900 text-gray-300 py-8 sm:py-12 px-4">
         <div className="container mx-auto max-w-6xl">
-          <div className="grid md:grid-cols-4 gap-8">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 sm:gap-8">
             <div>
               <div className="flex items-center space-x-2 mb-4">
                 <div className="w-8 h-8 bg-gradient-to-br from-purple-600 to-blue-600 rounded-lg flex items-center justify-center">
                   <BarChart3 />
                 </div>
-                <span className="text-xl font-bold text-white">Dandi</span>
+                <span className="text-lg sm:text-xl font-bold text-white">Dandi</span>
               </div>
-              <p className="text-gray-400">AI-powered GitHub repository analysis for developers and teams.</p>
+              <p className="text-gray-400 text-sm sm:text-base">AI-powered GitHub repository analysis for developers and teams.</p>
             </div>
             <div>
               <h3 className="font-semibold text-white mb-4">Product</h3>
-              <ul className="space-y-2">
+              <ul className="space-y-2 text-sm sm:text-base">
                 <li>
                   <a href="#" className="hover:text-white transition-colors">
                     Features
@@ -513,7 +513,7 @@ export default function LandingPage() {
             </div>
             <div>
               <h3 className="font-semibold text-white mb-4">Company</h3>
-              <ul className="space-y-2">
+              <ul className="space-y-2 text-sm sm:text-base">
                 <li>
                   <a href="#" className="hover:text-white transition-colors">
                     About
@@ -538,7 +538,7 @@ export default function LandingPage() {
             </div>
             <div>
               <h3 className="font-semibold text-white mb-4">Support</h3>
-              <ul className="space-y-2">
+              <ul className="space-y-2 text-sm sm:text-base">
                 <li>
                   <a href="#" className="hover:text-white transition-colors">
                     Help Center
@@ -562,8 +562,8 @@ export default function LandingPage() {
               </ul>
             </div>
           </div>
-          <div className="border-t border-gray-800 mt-8 pt-8 text-center">
-            <p className="text-gray-400">© 2024 Dandi GitHub Analyzer. All rights reserved.</p>
+          <div className="border-t border-gray-800 mt-6 sm:mt-8 pt-6 sm:pt-8 text-center">
+            <p className="text-gray-400 text-sm sm:text-base">© 2024 Dandi GitHub Analyzer. All rights reserved.</p>
           </div>
         </div>
       </footer>

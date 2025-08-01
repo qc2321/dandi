@@ -83,13 +83,13 @@ export default function Dashboard() {
 
     return (
         <ProtectedRoute>
-            <div className="min-h-screen bg-[#f8fafc] py-10 px-2 sm:px-4">
+            <div className="min-h-screen bg-[#f8fafc] py-6 sm:py-8 lg:py-10 px-2 sm:px-4">
                 {/* Toast Notification */}
                 <Toast toast={toast} onClose={hideToast} />
 
                 <div className="max-w-6xl mx-auto">
                     {/* Overview Heading */}
-                    <h1 className="text-3xl sm:text-4xl font-bold text-gray-900 mb-8">Overview</h1>
+                    <h1 className="text-2xl sm:text-3xl lg:text-4xl font-bold text-gray-900 mb-6 sm:mb-8">Overview</h1>
 
                     {/* Plan Overview */}
                     <PlanOverview
