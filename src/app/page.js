@@ -67,6 +67,18 @@ const DashboardIcon = () => (
   </svg>
 );
 
+const ArrowRight = () => (
+  <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 7l5 5m0 0l-5 5m5-5H6" />
+  </svg>
+);
+
+const BookOpen = () => (
+  <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.746 0 3.332.477 4.5 1.253v13C19.832 18.477 18.246 18 16.5 18c-1.746 0-3.332.477-4.5 1.253" />
+  </svg>
+);
+
 export default function LandingPage() {
   const { data: session, status } = useSession();
 
@@ -116,7 +128,7 @@ export default function LandingPage() {
       {/* Hero Section */}
       <section className="py-20 px-4">
         <div className="container mx-auto text-center max-w-4xl">
-          <Badge className="mb-4" variant="secondary">
+          <Badge className="mb-4 bg-gradient-to-r from-yellow-400 to-orange-500 text-gray-900 border-0 shadow-sm" variant="secondary">
             <Zap />
             <span className="ml-1">AI-Powered Repository Analysis</span>
           </Badge>
@@ -159,30 +171,30 @@ export default function LandingPage() {
 
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
             {status === "loading" ? (
-              <Button size="lg" className="text-lg px-8 py-3" disabled>
+              <Button size="lg" className="text-lg px-8 py-3 bg-gradient-to-r from-yellow-400 to-orange-500 text-gray-900 hover:from-yellow-500 hover:to-orange-600 shadow-lg hover:shadow-xl transition-all duration-200 transform hover:scale-105" disabled>
                 Loading...
               </Button>
             ) : session ? (
               <>
-                <Button size="lg" className="text-lg px-8 py-3" asChild>
+                <Button size="lg" className="text-lg px-8 py-3 bg-gradient-to-r from-yellow-400 to-orange-500 text-gray-900 hover:from-yellow-500 hover:to-orange-600 shadow-lg hover:shadow-xl transition-all duration-200 transform hover:scale-105" asChild>
                   <a href="/dashboards">
                     <KeyIcon />
                     Manage API Keys
                   </a>
                 </Button>
-                <Button size="lg" variant="outline" className="text-lg px-8 py-3 bg-transparent" asChild>
+                <Button size="lg" variant="outline" className="text-lg px-8 py-3 bg-white border-2 border-gray-200 text-gray-700 hover:bg-gray-50 hover:border-gray-300 shadow-lg hover:shadow-xl transition-all duration-200 transform hover:scale-105" asChild>
                   <a href="/dashboard">
                     <DashboardIcon />
                     Dashboard
                   </a>
                 </Button>
-                <Button size="lg" variant="outline" className="text-lg px-8 py-3 bg-transparent" asChild>
+                <Button size="lg" variant="outline" className="text-lg px-8 py-3 bg-white border-2 border-gray-200 text-gray-700 hover:bg-gray-50 hover:border-gray-300 shadow-lg hover:shadow-xl transition-all duration-200 transform hover:scale-105" asChild>
                   <a href="/playground">Try Playground</a>
                 </Button>
               </>
             ) : (
               <>
-                <Button size="lg" className="text-lg px-8 py-3" onClick={() => signIn("google")}>
+                <Button size="lg" className="text-lg px-8 py-3 bg-gradient-to-r from-yellow-400 to-orange-500 text-gray-900 hover:from-yellow-500 hover:to-orange-600 shadow-lg hover:shadow-xl transition-all duration-200 transform hover:scale-105" onClick={() => signIn("google")}>
                   <svg className="w-5 h-5" viewBox="0 0 24 24">
                     <path
                       fill="currentColor"
@@ -203,7 +215,8 @@ export default function LandingPage() {
                   </svg>
                   Sign in with Google
                 </Button>
-                <Button size="lg" variant="outline" className="text-lg px-8 py-3 bg-transparent">
+                <Button size="lg" variant="outline" className="text-lg px-8 py-3 bg-white border-2 border-gray-200 text-gray-700 hover:bg-gray-50 hover:border-gray-300 shadow-lg hover:shadow-xl transition-all duration-200 transform hover:scale-105">
+                  <BookOpen />
                   View Demo
                 </Button>
               </>
@@ -224,10 +237,10 @@ export default function LandingPage() {
           </div>
 
           <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-            <Card className="border-0 shadow-lg hover:shadow-xl transition-shadow">
+            <Card className="border-0 shadow-lg hover:shadow-xl transition-all duration-300 transform hover:scale-105 bg-gradient-to-br from-blue-50 to-indigo-50">
               <CardHeader>
-                <div className="w-12 h-12 bg-blue-100 rounded-lg flex items-center justify-center mb-4">
-                  <BarChart3 />
+                <div className="w-12 h-12 bg-gradient-to-br from-blue-500 to-indigo-600 rounded-xl flex items-center justify-center mb-4 shadow-lg">
+                  <BarChart3 className="text-white" />
                 </div>
                 <CardTitle>Smart Repository Summary</CardTitle>
                 <CardDescription>
@@ -236,10 +249,10 @@ export default function LandingPage() {
               </CardHeader>
             </Card>
 
-            <Card className="border-0 shadow-lg hover:shadow-xl transition-shadow">
+            <Card className="border-0 shadow-lg hover:shadow-xl transition-all duration-300 transform hover:scale-105 bg-gradient-to-br from-yellow-50 to-orange-50">
               <CardHeader>
-                <div className="w-12 h-12 bg-yellow-100 rounded-lg flex items-center justify-center mb-4">
-                  <Star />
+                <div className="w-12 h-12 bg-gradient-to-br from-yellow-500 to-orange-500 rounded-xl flex items-center justify-center mb-4 shadow-lg">
+                  <Star className="text-white" />
                 </div>
                 <CardTitle>Star Tracking & Trends</CardTitle>
                 <CardDescription>
@@ -248,10 +261,10 @@ export default function LandingPage() {
               </CardHeader>
             </Card>
 
-            <Card className="border-0 shadow-lg hover:shadow-xl transition-shadow">
+            <Card className="border-0 shadow-lg hover:shadow-xl transition-all duration-300 transform hover:scale-105 bg-gradient-to-br from-green-50 to-emerald-50">
               <CardHeader>
-                <div className="w-12 h-12 bg-green-100 rounded-lg flex items-center justify-center mb-4">
-                  <TrendingUp />
+                <div className="w-12 h-12 bg-gradient-to-br from-green-500 to-emerald-600 rounded-xl flex items-center justify-center mb-4 shadow-lg">
+                  <TrendingUp className="text-white" />
                 </div>
                 <CardTitle>Cool Facts & Insights</CardTitle>
                 <CardDescription>
@@ -260,10 +273,10 @@ export default function LandingPage() {
               </CardHeader>
             </Card>
 
-            <Card className="border-0 shadow-lg hover:shadow-xl transition-shadow">
+            <Card className="border-0 shadow-lg hover:shadow-xl transition-all duration-300 transform hover:scale-105 bg-gradient-to-br from-purple-50 to-violet-50">
               <CardHeader>
-                <div className="w-12 h-12 bg-purple-100 rounded-lg flex items-center justify-center mb-4">
-                  <GitPullRequest />
+                <div className="w-12 h-12 bg-gradient-to-br from-purple-500 to-violet-600 rounded-xl flex items-center justify-center mb-4 shadow-lg">
+                  <GitPullRequest className="text-white" />
                 </div>
                 <CardTitle>Important Pull Requests</CardTitle>
                 <CardDescription>
@@ -272,10 +285,10 @@ export default function LandingPage() {
               </CardHeader>
             </Card>
 
-            <Card className="border-0 shadow-lg hover:shadow-xl transition-shadow">
+            <Card className="border-0 shadow-lg hover:shadow-xl transition-all duration-300 transform hover:scale-105 bg-gradient-to-br from-red-50 to-pink-50">
               <CardHeader>
-                <div className="w-12 h-12 bg-red-100 rounded-lg flex items-center justify-center mb-4">
-                  <Package />
+                <div className="w-12 h-12 bg-gradient-to-br from-red-500 to-pink-600 rounded-xl flex items-center justify-center mb-4 shadow-lg">
+                  <Package className="text-white" />
                 </div>
                 <CardTitle>Version Updates</CardTitle>
                 <CardDescription>
@@ -284,10 +297,10 @@ export default function LandingPage() {
               </CardHeader>
             </Card>
 
-            <Card className="border-0 shadow-lg hover:shadow-xl transition-shadow">
+            <Card className="border-0 shadow-lg hover:shadow-xl transition-all duration-300 transform hover:scale-105 bg-gradient-to-br from-indigo-50 to-blue-50">
               <CardHeader>
-                <div className="w-12 h-12 bg-indigo-100 rounded-lg flex items-center justify-center mb-4">
-                  <Users />
+                <div className="w-12 h-12 bg-gradient-to-br from-indigo-500 to-blue-600 rounded-xl flex items-center justify-center mb-4 shadow-lg">
+                  <Users className="text-white" />
                 </div>
                 <CardTitle>Community Insights</CardTitle>
                 <CardDescription>
@@ -309,7 +322,7 @@ export default function LandingPage() {
 
           <div className="grid md:grid-cols-3 gap-8">
             {/* Free Tier */}
-            <Card className="border-2 border-gray-200 shadow-lg">
+            <Card className="border-2 border-gray-200 shadow-lg hover:shadow-xl transition-all duration-300 transform hover:scale-105 bg-white">
               <CardHeader className="text-center">
                 <CardTitle className="text-2xl">Free</CardTitle>
                 <div className="text-4xl font-bold text-gray-900 mt-4">
@@ -319,33 +332,33 @@ export default function LandingPage() {
               </CardHeader>
               <CardContent className="space-y-4">
                 <div className="flex items-center space-x-3">
-                  <Check />
+                  <Check className="text-green-500" />
                   <span>5 repository analyses per month</span>
                 </div>
                 <div className="flex items-center space-x-3">
-                  <Check />
+                  <Check className="text-green-500" />
                   <span>Basic insights and summaries</span>
                 </div>
                 <div className="flex items-center space-x-3">
-                  <Check />
+                  <Check className="text-green-500" />
                   <span>Star tracking</span>
                 </div>
                 <div className="flex items-center space-x-3">
-                  <Check />
+                  <Check className="text-green-500" />
                   <span>Community support</span>
                 </div>
               </CardContent>
               <CardFooter>
-                <Button className="w-full bg-transparent" variant="outline">
+                <Button className="w-full bg-gradient-to-r from-gray-100 to-gray-200 text-gray-700 hover:from-gray-200 hover:to-gray-300 border-2 border-gray-300 shadow-lg hover:shadow-xl transition-all duration-200 transform hover:scale-105" variant="outline">
                   Get Started Free
                 </Button>
               </CardFooter>
             </Card>
 
             {/* Pro Tier */}
-            <Card className="border-2 border-purple-500 shadow-xl relative">
+            <Card className="border-2 border-yellow-400 shadow-xl relative bg-gradient-to-br from-yellow-50 to-orange-50 hover:shadow-2xl transition-all duration-300 transform hover:scale-105">
               <div className="absolute -top-3 left-1/2 transform -translate-x-1/2">
-                <Badge className="bg-purple-600 text-white">Most Popular</Badge>
+                <Badge className="bg-gradient-to-r from-yellow-400 to-orange-500 text-gray-900 border-0 shadow-lg">Most Popular</Badge>
               </div>
               <CardHeader className="text-center">
                 <CardTitle className="text-2xl">Pro</CardTitle>
@@ -356,37 +369,39 @@ export default function LandingPage() {
               </CardHeader>
               <CardContent className="space-y-4">
                 <div className="flex items-center space-x-3">
-                  <Check />
+                  <Check className="text-green-500" />
                   <span>100 repository analyses per month</span>
                 </div>
                 <div className="flex items-center space-x-3">
-                  <Check />
+                  <Check className="text-green-500" />
                   <span>Advanced AI insights</span>
                 </div>
                 <div className="flex items-center space-x-3">
-                  <Check />
+                  <Check className="text-green-500" />
                   <span>Pull request analysis</span>
                 </div>
                 <div className="flex items-center space-x-3">
-                  <Check />
+                  <Check className="text-green-500" />
                   <span>Version tracking</span>
                 </div>
                 <div className="flex items-center space-x-3">
-                  <Check />
+                  <Check className="text-green-500" />
                   <span>Priority support</span>
                 </div>
                 <div className="flex items-center space-x-3">
-                  <Check />
+                  <Check className="text-green-500" />
                   <span>Export reports</span>
                 </div>
               </CardContent>
               <CardFooter>
-                <Button className="w-full">Start Pro Trial</Button>
+                <Button className="w-full bg-gradient-to-r from-yellow-400 to-orange-500 text-gray-900 hover:from-yellow-500 hover:to-orange-600 shadow-lg hover:shadow-xl transition-all duration-200 transform hover:scale-105">
+                  Start Pro Trial
+                </Button>
               </CardFooter>
             </Card>
 
             {/* Enterprise Tier */}
-            <Card className="border-2 border-gray-200 shadow-lg">
+            <Card className="border-2 border-gray-200 shadow-lg hover:shadow-xl transition-all duration-300 transform hover:scale-105 bg-white">
               <CardHeader className="text-center">
                 <CardTitle className="text-2xl">Enterprise</CardTitle>
                 <div className="text-4xl font-bold text-gray-900 mt-4">
@@ -396,32 +411,32 @@ export default function LandingPage() {
               </CardHeader>
               <CardContent className="space-y-4">
                 <div className="flex items-center space-x-3">
-                  <Check />
+                  <Check className="text-green-500" />
                   <span>Unlimited analyses</span>
                 </div>
                 <div className="flex items-center space-x-3">
-                  <Check />
+                  <Check className="text-green-500" />
                   <span>Team collaboration</span>
                 </div>
                 <div className="flex items-center space-x-3">
-                  <Check />
+                  <Check className="text-green-500" />
                   <span>Custom integrations</span>
                 </div>
                 <div className="flex items-center space-x-3">
-                  <Check />
+                  <Check className="text-green-500" />
                   <span>Advanced analytics</span>
                 </div>
                 <div className="flex items-center space-x-3">
-                  <Check />
+                  <Check className="text-green-500" />
                   <span>Dedicated support</span>
                 </div>
                 <div className="flex items-center space-x-3">
-                  <Check />
+                  <Check className="text-green-500" />
                   <span>SLA guarantee</span>
                 </div>
               </CardContent>
               <CardFooter>
-                <Button className="w-full bg-transparent" variant="outline">
+                <Button className="w-full bg-gradient-to-r from-gray-100 to-gray-200 text-gray-700 hover:from-gray-200 hover:to-gray-300 border-2 border-gray-300 shadow-lg hover:shadow-xl transition-all duration-200 transform hover:scale-105" variant="outline">
                   Contact Sales
                 </Button>
               </CardFooter>
@@ -439,18 +454,18 @@ export default function LandingPage() {
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
             {session ? (
-              <Button size="lg" className="bg-white text-purple-600 hover:bg-gray-100 text-lg px-8 py-3" asChild>
+              <Button size="lg" className="bg-gradient-to-r from-yellow-400 to-orange-500 text-gray-900 hover:from-yellow-500 hover:to-orange-600 shadow-lg hover:shadow-xl transition-all duration-200 transform hover:scale-105 text-lg px-8 py-3" asChild>
                 <a href="/dashboard">Go to Dashboard</a>
               </Button>
             ) : (
-              <Button size="lg" className="bg-white text-purple-600 hover:bg-gray-100 text-lg px-8 py-3">
+              <Button size="lg" className="bg-gradient-to-r from-yellow-400 to-orange-500 text-gray-900 hover:from-yellow-500 hover:to-orange-600 shadow-lg hover:shadow-xl transition-all duration-200 transform hover:scale-105 text-lg px-8 py-3">
                 Start Free Analysis
               </Button>
             )}
             <Button
               size="lg"
               variant="outline"
-              className="border-white text-white hover:bg-white hover:text-purple-600 text-lg px-8 py-3 bg-transparent"
+              className="border-2 border-white text-white hover:bg-white hover:text-purple-600 shadow-lg hover:shadow-xl transition-all duration-200 transform hover:scale-105 text-lg px-8 py-3 bg-transparent"
             >
               Schedule Demo
             </Button>
