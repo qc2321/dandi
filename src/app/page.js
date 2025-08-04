@@ -4,6 +4,7 @@ import { Button } from "../components/ui/button";
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "../components/ui/card";
 import { Badge } from "../components/ui/badge";
 import LoginButton from "../components/LoginButton";
+import ApiDemo from "../components/ApiDemo";
 import { useSession, signIn, signOut } from "next-auth/react";
 
 // Icons - we'll use simple SVG icons since lucide-react isn't installed yet
@@ -215,7 +216,17 @@ export default function LandingPage() {
                   </svg>
                   <span className="ml-2">Sign in with Google</span>
                 </Button>
-                <Button size="lg" variant="outline" className="text-base sm:text-lg px-6 sm:px-8 py-3 bg-white border-2 border-gray-200 text-gray-700 hover:bg-gray-50 hover:border-gray-300 shadow-lg hover:shadow-xl transition-all duration-200 transform hover:scale-105">
+                <Button
+                  size="lg"
+                  variant="outline"
+                  className="text-base sm:text-lg px-6 sm:px-8 py-3 bg-white border-2 border-gray-200 text-gray-700 hover:bg-gray-50 hover:border-gray-300 shadow-lg hover:shadow-xl transition-all duration-200 transform hover:scale-105"
+                  onClick={() => {
+                    const demoSection = document.getElementById('api-demo');
+                    if (demoSection) {
+                      demoSection.scrollIntoView({ behavior: 'smooth' });
+                    }
+                  }}
+                >
                   <BookOpen />
                   <span className="ml-2">View Demo</span>
                 </Button>
@@ -309,6 +320,19 @@ export default function LandingPage() {
               </CardHeader>
             </Card>
           </div>
+        </div>
+      </section>
+
+      {/* API Demo Section */}
+      <section id="api-demo" className="py-12 sm:py-20 px-4 bg-gradient-to-br from-gray-50 to-gray-100">
+        <div className="container mx-auto max-w-6xl">
+          <div className="text-center mb-12 sm:mb-16">
+            <h2 className="text-2xl sm:text-3xl font-bold text-gray-900 mb-4">Try the API</h2>
+            <p className="text-base sm:text-lg text-gray-600 max-w-2xl mx-auto px-4">
+              Test our GitHub repository analysis API with real requests. Edit the payload and see the response in real-time.
+            </p>
+          </div>
+          <ApiDemo />
         </div>
       </section>
 
@@ -473,8 +497,14 @@ export default function LandingPage() {
               size="lg"
               variant="outline"
               className="border-2 border-white text-white hover:bg-white hover:text-purple-600 shadow-lg hover:shadow-xl transition-all duration-200 transform hover:scale-105 text-base sm:text-lg px-6 sm:px-8 py-3 bg-transparent"
+              onClick={() => {
+                const demoSection = document.getElementById('api-demo');
+                if (demoSection) {
+                  demoSection.scrollIntoView({ behavior: 'smooth' });
+                }
+              }}
             >
-              Schedule Demo
+              Try Demo
             </Button>
           </div>
         </div>
@@ -512,7 +542,7 @@ export default function LandingPage() {
                   </a>
                 </li>
                 <li>
-                  <a href="#" className="hover:text-white transition-colors">
+                  <a href="/documentation" className="hover:text-white transition-colors">
                     Documentation
                   </a>
                 </li>
