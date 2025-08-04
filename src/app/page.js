@@ -356,9 +356,11 @@ export default function LandingPage() {
             </Card>
 
             {/* Pro Tier */}
-            <Card className="border-2 border-yellow-400 shadow-xl relative bg-gradient-to-br from-yellow-50 to-orange-50 hover:shadow-2xl transition-all duration-300 transform hover:scale-105">
-              <div className="absolute -top-3 left-1/2 transform -translate-x-1/2">
-                <Badge className="bg-gradient-to-r from-yellow-400 to-orange-500 text-gray-900 border-0 shadow-lg text-xs">Most Popular</Badge>
+            <Card className="border-2 border-gray-200 shadow-lg hover:shadow-xl transition-all duration-300 transform hover:scale-105 bg-white">
+              <div className="absolute top-4 right-4 z-10">
+                <Badge variant="secondary" className="bg-gray-100 text-gray-600">
+                  Coming Soon
+                </Badge>
               </div>
               <CardHeader className="text-center">
                 <CardTitle className="text-xl sm:text-2xl">Pro</CardTitle>
@@ -394,14 +396,19 @@ export default function LandingPage() {
                 </div>
               </CardContent>
               <CardFooter>
-                <Button className="w-full bg-gradient-to-r from-yellow-400 to-orange-500 text-gray-900 hover:from-yellow-500 hover:to-orange-600 shadow-lg hover:shadow-xl transition-all duration-200 transform hover:scale-105">
-                  Start Pro Trial
+                <Button className="w-full bg-gradient-to-r from-gray-100 to-gray-200 text-gray-700 hover:from-gray-200 hover:to-gray-300 border-2 border-gray-300 shadow-lg hover:shadow-xl transition-all duration-200 transform hover:scale-105" variant="outline" disabled>
+                  Coming Soon
                 </Button>
               </CardFooter>
             </Card>
 
             {/* Enterprise Tier */}
-            <Card className="border-2 border-gray-200 shadow-lg hover:shadow-xl transition-all duration-300 transform hover:scale-105 bg-white">
+            <Card className="border-2 border-gray-200 shadow-lg relative hover:shadow-xl transition-all duration-300 transform hover:scale-105 bg-white">
+              <div className="absolute top-4 right-4 z-10">
+                <Badge variant="secondary" className="bg-gray-100 text-gray-600">
+                  Coming Soon
+                </Badge>
+              </div>
               <CardHeader className="text-center">
                 <CardTitle className="text-xl sm:text-2xl">Enterprise</CardTitle>
                 <div className="text-3xl sm:text-4xl font-bold text-gray-900 mt-4">
@@ -436,8 +443,8 @@ export default function LandingPage() {
                 </div>
               </CardContent>
               <CardFooter>
-                <Button className="w-full bg-gradient-to-r from-gray-100 to-gray-200 text-gray-700 hover:from-gray-200 hover:to-gray-300 border-2 border-gray-300 shadow-lg hover:shadow-xl transition-all duration-200 transform hover:scale-105" variant="outline">
-                  Contact Sales
+                <Button className="w-full bg-gradient-to-r from-gray-100 to-gray-200 text-gray-700 hover:from-gray-200 hover:to-gray-300 border-2 border-gray-300 shadow-lg hover:shadow-xl transition-all duration-200 transform hover:scale-105" variant="outline" disabled>
+                  Coming Soon
                 </Button>
               </CardFooter>
             </Card>
