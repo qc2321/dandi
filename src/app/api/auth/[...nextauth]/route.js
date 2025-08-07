@@ -1,6 +1,7 @@
 import NextAuth from "next-auth";
 import GoogleProvider from "next-auth/providers/google";
 import { supabase } from "../../../../../lib/supabaseClient";
+import { generateApiToken } from "../../../../../lib/auth";
 
 const handler = NextAuth({
     providers: [
@@ -73,16 +74,21 @@ const handler = NextAuth({
         async jwt({ token, user, account }) {
             // Persist the OAuth access_token to the token right after signin
             if (account && user) {
+                // Generate a custom JWT token for API authentication
+                const apiToken = generateApiToken(user);
+
                 return {
                     ...token,
                     accessToken: account.access_token,
+                    apiToken: apiToken,
                 };
             }
             return token;
         },
         async session({ session, token }) {
-            // Send properties to the client, like an access_token from a provider
+            // Send properties to the client, including the API token
             session.accessToken = token.accessToken;
+            session.apiToken = token.apiToken;
             return session;
         },
     },

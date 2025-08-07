@@ -1,27 +1,45 @@
 import { useState, useEffect } from "react";
-import { supabase } from "../../lib/supabaseClient";
-import { v4 as uuidv4 } from "uuid";
+import { useSession } from "next-auth/react";
 
 export const useApiKeys = () => {
     const [apiKeys, setApiKeys] = useState([]);
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState(null);
+    const { data: session } = useSession();
 
-    // Fetch API keys from Supabase
+    // Helper function to get auth headers
+    const getAuthHeaders = () => {
+        const headers = {
+            'Content-Type': 'application/json',
+        };
+
+        // Add Authorization header if session exists
+        if (session?.apiToken) {
+            headers['Authorization'] = `Bearer ${session.apiToken}`;
+        }
+
+        return headers;
+    };
+
+    // Fetch API keys from the REST API
     const fetchKeys = async () => {
+        if (!session) return; // Don't fetch if no session
+
         setLoading(true);
         setError(null);
         try {
-            const { data, error } = await supabase
-                .from("api_keys")
-                .select("id, created_at, name, value, usage")
-                .order("created_at", { ascending: false });
+            const response = await fetch('/api/api-keys', {
+                method: 'GET',
+                headers: getAuthHeaders(),
+            });
 
-            if (error) {
-                setError(error.message);
-            } else {
-                setApiKeys(data || []);
+            if (!response.ok) {
+                const errorData = await response.json();
+                throw new Error(errorData.error || 'Failed to fetch API keys');
             }
+
+            const data = await response.json();
+            setApiKeys(data.apiKeys || []);
         } catch (err) {
             setError(err.message);
         } finally {
@@ -31,25 +49,30 @@ export const useApiKeys = () => {
 
     // Create new API key
     const createApiKey = async (keyData) => {
+        if (!session) {
+            setError('Authentication required');
+            return false;
+        }
+
         setLoading(true);
         setError(null);
         try {
-            const newKey = {
-                id: uuidv4(),
-                name: keyData.name,
-                value: keyData.value || `dandi-${Math.random().toString(36).slice(2, 12)}`,
-                usage: 0,
-            };
+            const response = await fetch('/api/api-keys', {
+                method: 'POST',
+                headers: getAuthHeaders(),
+                body: JSON.stringify({
+                    name: keyData.name,
+                    value: keyData.value,
+                }),
+            });
 
-            const { error } = await supabase.from("api_keys").insert([newKey]);
-
-            if (error) {
-                setError(error.message);
-                return false;
-            } else {
-                await fetchKeys(); // Refresh the list
-                return true;
+            if (!response.ok) {
+                const errorData = await response.json();
+                throw new Error(errorData.error || 'Failed to create API key');
             }
+
+            await fetchKeys(); // Refresh the list
+            return true;
         } catch (err) {
             setError(err.message);
             return false;
@@ -60,21 +83,30 @@ export const useApiKeys = () => {
 
     // Update existing API key
     const updateApiKey = async (id, keyData) => {
+        if (!session) {
+            setError('Authentication required');
+            return false;
+        }
+
         setLoading(true);
         setError(null);
         try {
-            const { error } = await supabase
-                .from("api_keys")
-                .update({ name: keyData.name, value: keyData.value })
-                .eq("id", id);
+            const response = await fetch(`/api/api-keys/${id}`, {
+                method: 'PUT',
+                headers: getAuthHeaders(),
+                body: JSON.stringify({
+                    name: keyData.name,
+                    value: keyData.value,
+                }),
+            });
 
-            if (error) {
-                setError(error.message);
-                return false;
-            } else {
-                await fetchKeys(); // Refresh the list
-                return true;
+            if (!response.ok) {
+                const errorData = await response.json();
+                throw new Error(errorData.error || 'Failed to update API key');
             }
+
+            await fetchKeys(); // Refresh the list
+            return true;
         } catch (err) {
             setError(err.message);
             return false;
@@ -85,18 +117,26 @@ export const useApiKeys = () => {
 
     // Delete API key
     const deleteApiKey = async (id) => {
+        if (!session) {
+            setError('Authentication required');
+            return false;
+        }
+
         setLoading(true);
         setError(null);
         try {
-            const { error } = await supabase.from("api_keys").delete().eq("id", id);
+            const response = await fetch(`/api/api-keys/${id}`, {
+                method: 'DELETE',
+                headers: getAuthHeaders(),
+            });
 
-            if (error) {
-                setError(error.message);
-                return false;
-            } else {
-                await fetchKeys(); // Refresh the list
-                return true;
+            if (!response.ok) {
+                const errorData = await response.json();
+                throw new Error(errorData.error || 'Failed to delete API key');
             }
+
+            await fetchKeys(); // Refresh the list
+            return true;
         } catch (err) {
             setError(err.message);
             return false;
@@ -105,10 +145,15 @@ export const useApiKeys = () => {
         }
     };
 
-    // Initial fetch on mount
+    // Initial fetch on mount and when session changes
     useEffect(() => {
-        fetchKeys();
-    }, []);
+        if (session) {
+            fetchKeys();
+        } else {
+            setApiKeys([]);
+            setError(null);
+        }
+    }, [session]);
 
     return {
         apiKeys,
