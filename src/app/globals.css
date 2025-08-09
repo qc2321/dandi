@@ -138,6 +138,27 @@
   }
 }
 
+/* Hide Next.js development overlay */
+#__next-build-watcher,
+#__next-prerender-indicator,
+[data-nextjs-dev-overlay],
+[data-nextjs-dev-indicator] {
+  display: none !important;
+}
+
+/* Hide Turbopack development overlay */
+[data-turbo-dev-overlay],
+[data-turbo-dev-indicator] {
+  display: none !important;
+}
+
+/* Hide any development-related overlays */
+[class*="dev-overlay"],
+[class*="dev-indicator"],
+[class*="build-activity"] {
+  display: none !important;
+}
+
 /* Mobile-specific improvements */
 @layer utilities {
 

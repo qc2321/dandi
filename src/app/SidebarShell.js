@@ -2,10 +2,12 @@
 import { useState } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
+import { useSession, signOut } from "next-auth/react";
 
 export default function SidebarShell({ children }) {
     const [sidebarOpen, setSidebarOpen] = useState(true);
     const pathname = usePathname();
+    const { data: session, status } = useSession();
 
     return (
         <div className="flex min-h-screen">
@@ -82,6 +84,48 @@ export default function SidebarShell({ children }) {
                         {sidebarOpen && <svg className="w-4 h-4 ml-1 flex-shrink-0" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24"><path d="M18 13v6a2 2 0 01-2 2H6a2 2 0 01-2-2V8a2 2 0 012-2h6" strokeLinecap="round" strokeLinejoin="round" /><path d="M15 3h6m0 0v6m0-6L10 14" strokeLinecap="round" strokeLinejoin="round" /></svg>}
                     </a>
                 </nav>
+
+                {/* User Profile Section */}
+                {session && (
+                    <div className={`border-t border-gray-200 pt-4 ${sidebarOpen ? "" : "lg:items-center"}`}>
+                        <div className={`flex items-center gap-3 ${sidebarOpen ? "mb-3" : "lg:justify-center"}`}>
+                            {session.user?.image ? (
+                                <img
+                                    src={session.user.image}
+                                    alt={session.user.name || "User"}
+                                    className="w-10 h-10 rounded-full flex-shrink-0"
+                                />
+                            ) : (
+                                <div className="w-10 h-10 bg-gray-300 rounded-full flex items-center justify-center flex-shrink-0">
+                                    <svg className="w-6 h-6 text-gray-600" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
+                                        <path strokeLinecap="round" strokeLinejoin="round" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
+                                    </svg>
+                                </div>
+                            )}
+                            {sidebarOpen && (
+                                <div className="flex-1 min-w-0">
+                                    <p className="text-sm font-medium text-gray-900 truncate">
+                                        {session.user?.name || "User"}
+                                    </p>
+                                    <p className="text-xs text-gray-500 truncate">
+                                        {session.user?.email}
+                                    </p>
+                                </div>
+                            )}
+                        </div>
+                        <button
+                            onClick={() => signOut()}
+                            className={`w-full flex items-center gap-2 px-3 py-2 rounded-lg transition-colors text-gray-700 hover:bg-gray-100 hover:text-gray-900 ${sidebarOpen ? "justify-start" : "lg:justify-center"}`}
+                        >
+                            <span className="inline-block w-5 h-5 flex-shrink-0">
+                                <svg fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
+                                    <path strokeLinecap="round" strokeLinejoin="round" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1" />
+                                </svg>
+                            </span>
+                            {sidebarOpen && <span>Sign Out</span>}
+                        </button>
+                    </div>
+                )}
             </aside>
             {/* Main content area */}
             <main className={`flex-1 transition-all duration-300 ${sidebarOpen ? "lg:ml-64" : "lg:ml-16"}`}>
