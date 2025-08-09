@@ -2,8 +2,17 @@
 import { useState } from "react";
 import { useToast } from "../../hooks/useToast";
 import Toast from "../../components/Toast";
+import ProtectedRoute from "../../components/ProtectedRoute";
 
 export default function PlaygroundPage() {
+    return (
+        <ProtectedRoute>
+            <PlaygroundContent />
+        </ProtectedRoute>
+    );
+}
+
+function PlaygroundContent() {
     const [apiKey, setApiKey] = useState("");
     const [githubUrl, setGithubUrl] = useState("");
     const [isLoading, setIsLoading] = useState(false);

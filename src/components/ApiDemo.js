@@ -1,9 +1,11 @@
 "use client";
 
 import { useState } from "react";
+import { useRouter } from "next/navigation";
 import { Button } from "./ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "./ui/card";
 import { Badge } from "./ui/badge";
+import { useUser } from "@/hooks/useUser";
 
 // Icons
 const SendIcon = () => (
@@ -37,8 +39,22 @@ export default function ApiDemo() {
     const [response, setResponse] = useState(null);
     const [isLoading, setIsLoading] = useState(false);
     const [responseTime, setResponseTime] = useState(null);
+    const { isAuthenticated } = useUser();
+    const router = useRouter();
 
     const handleSendRequest = async () => {
+        // Check authentication status first
+        if (!isAuthenticated) {
+            router.push('/auth/signin');
+            return;
+        }
+
+        // If authenticated, redirect to playground
+        router.push('/playground');
+        return;
+
+        // The following code is commented out since we're redirecting instead
+        /*
         setIsLoading(true);
         const startTime = Date.now();
 
@@ -80,6 +96,7 @@ export default function ApiDemo() {
         } finally {
             setIsLoading(false);
         }
+        */
     };
 
     const formatResponseSize = (obj) => {
