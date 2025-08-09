@@ -1,7 +1,7 @@
 import { NextResponse } from 'next/server';
 import { validateAndIncrementUsage } from '@/lib/apiKeyUtils.js';
 import { summarizeReadme } from './chain';
-import { getReadmeContent, getRepositoryMetadata } from '@/lib/githubUtils.js';
+import { getAllRepositoryData } from '@/lib/githubUtils.js';
 
 export async function POST(request) {
     try {
@@ -34,11 +34,8 @@ export async function POST(request) {
         // If GitHub URL is provided, fetch and summarize README content
         if (githubUrl) {
             try {
-                // Fetch README content and repository metadata in parallel
-                const [readmeContent, repoMetadata] = await Promise.all([
-                    getReadmeContent(githubUrl),
-                    getRepositoryMetadata(githubUrl)
-                ]);
+                // Fetch all repository data in parallel (optimized)
+                const { readmeContent, repositoryMetadata } = await getAllRepositoryData(githubUrl);
 
                 // Summarize the README content using LangChain
                 const summary = await summarizeReadme(readmeContent);
@@ -55,12 +52,22 @@ export async function POST(request) {
                         summary: summary.summary,
                         cool_facts: summary.cool_facts,
                         repository_info: {
-                            stars: repoMetadata.stars,
-                            latest_version: repoMetadata.latestVersion,
-                            description: repoMetadata.description,
-                            language: repoMetadata.language,
-                            forks: repoMetadata.forks,
-                            open_issues: repoMetadata.openIssues
+                            stars: repositoryMetadata.stars,
+                            latest_version: repositoryMetadata.latestVersion,
+                            description: repositoryMetadata.description,
+                            language: repositoryMetadata.language,
+                            forks: repositoryMetadata.forks,
+                            open_issues: repositoryMetadata.openIssues,
+                            website: repositoryMetadata.website,
+                            license: repositoryMetadata.license,
+                            license_url: repositoryMetadata.licenseUrl,
+                            created_at: repositoryMetadata.createdAt,
+                            updated_at: repositoryMetadata.updatedAt,
+                            pushed_at: repositoryMetadata.pushedAt,
+                            size: repositoryMetadata.size,
+                            watchers: repositoryMetadata.watchers,
+                            default_branch: repositoryMetadata.defaultBranch,
+                            topics: repositoryMetadata.topics
                         }
                     }
                 });
