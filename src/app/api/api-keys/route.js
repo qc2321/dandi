@@ -68,7 +68,7 @@ export async function GET(request) {
 
         let query = supabase
             .from("api_keys")
-            .select("id, created_at, name, value, usage, user_id")
+            .select("id, created_at, name, value, usage, limit_count, user_id")
             .order("created_at", { ascending: false });
 
         // If we have a user ID, filter by it; otherwise get all keys
@@ -122,7 +122,7 @@ export async function POST(request) {
         }
 
         const body = await request.json();
-        const { name, value } = body;
+        const { name, value, limit } = body;
 
         if (!name) {
             return NextResponse.json(
@@ -137,6 +137,7 @@ export async function POST(request) {
             name: name,
             value: value || `dandi-${Math.random().toString(36).slice(2, 12)}`,
             usage: 0,
+            limit_count: limit || 1000, // Default limit of 1000 requests
             created_at: new Date().toISOString(),
         };
 

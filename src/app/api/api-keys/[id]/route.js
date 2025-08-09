@@ -58,7 +58,7 @@ export async function PUT(request, { params }) {
         const userId = await getUserIdFromRequest(request);
         const { id } = params;
         const body = await request.json();
-        const { name, value } = body;
+        const { name, value, limit } = body;
 
         if (!name) {
             return NextResponse.json(
@@ -83,13 +83,22 @@ export async function PUT(request, { params }) {
         }
 
         // Update the API key
+        const updateData = {
+            name: name,
+            updated_at: new Date().toISOString()
+        };
+
+        // Only update value and limit if provided
+        if (value !== undefined) {
+            updateData.value = value;
+        }
+        if (limit !== undefined) {
+            updateData.limit_count = limit;
+        }
+
         const { data, error } = await supabase
             .from("api_keys")
-            .update({
-                name: name,
-                value: value,
-                updated_at: new Date().toISOString()
-            })
+            .update(updateData)
             .eq("id", id)
             .eq("user_id", userId)
             .select()

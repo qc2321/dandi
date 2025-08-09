@@ -14,7 +14,10 @@ export default function ApiKeyRow({
                 {apiKey.name}
             </td>
             <td className="px-2 sm:px-4 py-3 text-gray-500 text-xs sm:text-sm align-middle">
-                {apiKey.usage}
+                <div className="flex flex-col">
+                    <span className="font-medium">{apiKey.usage}</span>
+                    <span className="text-xs text-gray-400">/ {apiKey.limit_count || 1000}</span>
+                </div>
             </td>
             <td className="px-2 sm:px-4 py-3 align-middle">
                 <div className="flex items-center gap-2">

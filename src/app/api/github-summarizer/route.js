@@ -1,11 +1,6 @@
 import { NextResponse } from 'next/server';
-import { createClient } from '@supabase/supabase-js';
+import { validateAndIncrementUsage } from '../../../../lib/apiKeyUtils';
 import { summarizeReadme } from './chain';
-
-const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL;
-const supabaseAnonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY;
-
-const supabase = createClient(supabaseUrl, supabaseAnonKey);
 
 export async function POST(request) {
     try {
@@ -22,80 +17,65 @@ export async function POST(request) {
             );
         }
 
-        // Validate API key against Supabase database
-        const { data, error } = await supabase
-            .from("api_keys")
-            .select("id, name, value, usage")
-            .eq("value", apiKey.trim())
-            .single();
+        // Validate API key and increment usage
+        const result = await validateAndIncrementUsage(apiKey);
 
-        if (error && error.code !== 'PGRST116') {
-            // PGRST116 is "not found" error, which is expected for invalid keys
-            console.error("Database error:", error);
+        if (!result.isValid) {
             return NextResponse.json(
                 {
                     success: false,
-                    message: 'Error validating API key'
+                    message: result.error
                 },
-                { status: 500 }
+                { status: result.status || 400 }
             );
         }
 
-        const isValidKey = data && data.value === apiKey.trim();
+        // If GitHub URL is provided, fetch and summarize README content
+        if (githubUrl) {
+            try {
+                const readmeContent = await getReadmeContent(githubUrl);
 
-        if (isValidKey) {
-            // If GitHub URL is provided, fetch and summarize README content
-            if (githubUrl) {
-                try {
-                    const readmeContent = await getReadmeContent(githubUrl);
+                // Summarize the README content using LangChain
+                const summary = await summarizeReadme(readmeContent);
+                console.log('Summary:', summary);
 
-                    // Summarize the README content using LangChain
-                    const summary = await summarizeReadme(readmeContent);
-                    console.log('Summary:', summary);
-
-                    return NextResponse.json({
-                        success: true,
-                        message: 'API key is valid and repository summarized',
-                        data: {
-                            id: data.id,
-                            name: data.name,
-                            usage: data.usage,
-                            summary: summary.summary,
-                            cool_facts: summary.cool_facts
-                        }
-                    });
-                } catch (readmeError) {
-                    console.error('Error fetching README:', readmeError);
-                    return NextResponse.json({
-                        success: true,
-                        message: 'API key is valid but failed to fetch README content',
-                        data: {
-                            id: data.id,
-                            name: data.name,
-                            usage: data.usage,
-                            error: readmeError.message
-                        }
-                    });
-                }
-            } else {
                 return NextResponse.json({
                     success: true,
-                    message: 'API key is valid',
+                    message: 'API key is valid and repository summarized',
                     data: {
-                        id: data.id,
-                        name: data.name,
-                        usage: data.usage
+                        id: result.data.id,
+                        name: result.data.name,
+                        usage: result.data.usage,
+                        limit: result.data.limit,
+                        summary: summary.summary,
+                        cool_facts: summary.cool_facts
+                    }
+                });
+            } catch (readmeError) {
+                console.error('Error fetching README:', readmeError);
+                return NextResponse.json({
+                    success: true,
+                    message: 'API key is valid but failed to fetch README content',
+                    data: {
+                        id: result.data.id,
+                        name: result.data.name,
+                        usage: result.data.usage,
+                        limit: result.data.limit,
+                        error: readmeError.message
                     }
                 });
             }
         } else {
-            return NextResponse.json(
-                {
-                    success: false,
-                    message: 'Invalid API key'
-                },
-                { status: 401 }
-            );
+            return NextResponse.json({
+                success: true,
+                message: 'API key is valid',
+                data: {
+                    id: result.data.id,
+                    name: result.data.name,
+                    usage: result.data.usage,
+                    limit: result.data.limit
+                }
+            });
         }
 
     } catch (error) {

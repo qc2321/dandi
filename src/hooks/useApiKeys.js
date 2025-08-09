@@ -63,6 +63,7 @@ export const useApiKeys = () => {
                 body: JSON.stringify({
                     name: keyData.name,
                     value: keyData.value,
+                    limit: keyData.limit_count,
                 }),
             });
 
@@ -97,6 +98,7 @@ export const useApiKeys = () => {
                 body: JSON.stringify({
                     name: keyData.name,
                     value: keyData.value,
+                    limit: keyData.limit_count,
                 }),
             });
 

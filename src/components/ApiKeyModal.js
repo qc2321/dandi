@@ -44,30 +44,20 @@ export default function ApiKeyModal({
                 </div>
 
                 <div className="mb-4 sm:mb-5">
-                    <label className="flex items-center gap-2 cursor-pointer select-none">
-                        <input
-                            type="checkbox"
-                            checked={form.limit}
-                            onChange={e => onFormChange('limit', e.target.checked)}
-                            className="accent-blue-500"
-                        />
-                        <span className="text-sm font-medium text-gray-700">
-                            Limit monthly usage<span className="text-gray-400">*</span>
-                        </span>
+                    <label className="block text-sm font-semibold text-gray-700 mb-1">
+                        Usage Limit <span className="font-normal text-gray-400 text-xs sm:text-sm">— Maximum number of API calls allowed</span>
                     </label>
                     <input
                         type="number"
                         min="1"
-                        disabled={!form.limit}
-                        value={form.monthly}
-                        onChange={e => onFormChange('monthly', e.target.value)}
-                        className={`mt-2 w-full rounded-lg border px-3 sm:px-4 py-2 text-gray-900 text-sm sm:text-base outline-none placeholder-gray-400 ${form.limit ? 'border-blue-500 focus:ring-2 focus:ring-blue-100' : 'border-gray-200 bg-gray-100 text-gray-400'}`}
+                        className="w-full rounded-lg border border-gray-300 focus:border-blue-500 focus:ring-2 focus:ring-blue-100 px-3 sm:px-4 py-2 text-gray-900 text-sm sm:text-base outline-none placeholder-gray-400"
                         placeholder="1000"
+                        value={form.limit_count || ''}
+                        onChange={e => onFormChange('limit_count', parseInt(e.target.value) || '')}
                     />
-                </div>
-
-                <div className="text-xs text-gray-400 mb-4 sm:mb-6">
-                    * If the combined usage of all your keys exceeds your plan&apos;s limit, all requests will be rejected.
+                    <div className="text-xs text-gray-400 mt-1">
+                        Leave blank to use default limit of 1000 requests
+                    </div>
                 </div>
 
                 <div className="flex flex-col sm:flex-row gap-2 sm:gap-3 justify-end">
