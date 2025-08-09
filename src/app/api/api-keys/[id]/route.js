@@ -1,7 +1,7 @@
 import { NextResponse } from 'next/server';
 import { getServerSession } from 'next-auth';
-import { supabase } from '../../../../../lib/supabaseClient';
-import { getUserEmailFromToken } from '../../../../../lib/auth';
+import { supabase } from '@/lib/supabaseClient.js';
+import { getUserEmailFromToken } from '@/lib/auth.js';
 
 // Helper function to get user ID from session or JWT token
 async function getUserIdFromRequest(request) {

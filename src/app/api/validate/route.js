@@ -1,5 +1,5 @@
 import { NextResponse } from 'next/server';
-import { withApiKeyValidation } from '../../../../lib/apiKeyUtils';
+import { withApiKeyValidation } from '@/lib/apiKeyUtils.js';
 
 // Original handler function - now focused only on business logic
 async function validateHandler(request) {

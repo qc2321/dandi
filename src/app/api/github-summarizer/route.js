@@ -1,6 +1,7 @@
 import { NextResponse } from 'next/server';
-import { validateAndIncrementUsage } from '../../../../lib/apiKeyUtils';
+import { validateAndIncrementUsage } from '@/lib/apiKeyUtils.js';
 import { summarizeReadme } from './chain';
+import { getReadmeContent, getRepositoryMetadata } from '@/lib/githubUtils.js';
 
 export async function POST(request) {
     try {
@@ -33,7 +34,11 @@ export async function POST(request) {
         // If GitHub URL is provided, fetch and summarize README content
         if (githubUrl) {
             try {
-                const readmeContent = await getReadmeContent(githubUrl);
+                // Fetch README content and repository metadata in parallel
+                const [readmeContent, repoMetadata] = await Promise.all([
+                    getReadmeContent(githubUrl),
+                    getRepositoryMetadata(githubUrl)
+                ]);
 
                 // Summarize the README content using LangChain
                 const summary = await summarizeReadme(readmeContent);
@@ -48,14 +53,22 @@ export async function POST(request) {
                         usage: result.data.usage,
                         limit: result.data.limit,
                         summary: summary.summary,
-                        cool_facts: summary.cool_facts
+                        cool_facts: summary.cool_facts,
+                        repository_info: {
+                            stars: repoMetadata.stars,
+                            latest_version: repoMetadata.latestVersion,
+                            description: repoMetadata.description,
+                            language: repoMetadata.language,
+                            forks: repoMetadata.forks,
+                            open_issues: repoMetadata.openIssues
+                        }
                     }
                 });
             } catch (readmeError) {
-                console.error('Error fetching README:', readmeError);
+                console.error('Error fetching repository data:', readmeError);
                 return NextResponse.json({
                     success: true,
-                    message: 'API key is valid but failed to fetch README content',
+                    message: 'API key is valid but failed to fetch repository data',
                     data: {
                         id: result.data.id,
                         name: result.data.name,
@@ -109,36 +122,7 @@ export async function GET(request) {
     );
 }
 
-async function getReadmeContent(githubUrl) {
-    try {
-        // Parse GitHub URL to get owner and repo
-        const urlParts = githubUrl.replace('https://github.com/', '').split('/');
-        const owner = urlParts[0];
-        const repo = urlParts[1];
 
-        // Construct API URL for README
-        const readmeUrl = `https://api.github.com/repos/${owner}/${repo}/readme`;
-
-        // Fetch README content
-        const response = await fetch(readmeUrl, {
-            headers: {
-                'Accept': 'application/vnd.github.v3.raw',
-                'User-Agent': 'Dandi-App'
-            }
-        });
-
-        if (!response.ok) {
-            throw new Error(`GitHub API returned ${response.status}`);
-        }
-
-        const readmeContent = await response.text();
-        return readmeContent;
-
-    } catch (error) {
-        console.error('Error fetching README:', error);
-        throw new Error('Failed to fetch repository README');
-    }
-}
 
 
 

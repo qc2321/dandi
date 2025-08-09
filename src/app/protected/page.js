@@ -3,7 +3,7 @@ import { useEffect, useState, Suspense } from "react";
 import { useSearchParams, useRouter } from "next/navigation";
 import { useToast } from "../../hooks/useToast";
 import Toast from "../../components/Toast";
-import { supabase } from "../../../lib/supabaseClient";
+import { supabase } from "@/lib/supabaseClient.js";
 
 function ProtectedPageContent() {
     const [isValidating, setIsValidating] = useState(true);

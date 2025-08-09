@@ -1,7 +1,7 @@
 import NextAuth from "next-auth";
 import GoogleProvider from "next-auth/providers/google";
-import { supabase } from "../../../../../lib/supabaseClient";
-import { generateApiToken } from "../../../../../lib/auth";
+import { supabase } from "@/lib/supabaseClient.js";
+import { generateApiToken } from "@/lib/auth.js";
 
 const handler = NextAuth({
     providers: [
