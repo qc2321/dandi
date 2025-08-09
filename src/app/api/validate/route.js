@@ -1,45 +1,28 @@
 import { NextResponse } from 'next/server';
-import { validateAndIncrementUsage } from '../../../../lib/apiKeyUtils';
+import { withApiKeyValidation } from '../../../../lib/apiKeyUtils';
 
-export async function POST(request) {
-    try {
-        const { apiKey } = await request.json();
+// Original handler function - now focused only on business logic
+async function validateHandler(request) {
+    // The API key validation is now handled by the HOF
+    // We can access the validated API key data from request.apiKeyData
+    const { apiKeyData } = request;
 
-        // Validate API key and increment usage
-        const result = await validateAndIncrementUsage(apiKey);
-
-        if (!result.isValid) {
-            return NextResponse.json(
-                {
-                    success: false,
-                    message: result.error
-                },
-                { status: result.status || 400 }
-            );
+    return NextResponse.json({
+        success: true,
+        message: 'API key is valid',
+        data: {
+            id: apiKeyData.id,
+            name: apiKeyData.name,
+            usage: apiKeyData.usage,
+            limit: apiKeyData.limit
         }
-
-        return NextResponse.json({
-            success: true,
-            message: 'API key is valid',
-            data: {
-                id: result.data.id,
-                name: result.data.name,
-                usage: result.data.usage,
-                limit: result.data.limit
-            }
-        });
-
-    } catch (error) {
-        console.error("Validation error:", error);
-        return NextResponse.json(
-            {
-                success: false,
-                message: 'Internal server error'
-            },
-            { status: 500 }
-        );
-    }
+    });
 }
+
+// Export the wrapped handler with automatic API key validation
+export const POST = withApiKeyValidation(validateHandler, {
+    bodyField: 'apiKey' // Extract API key from request body
+});
 
 export async function GET(request) {
     return NextResponse.json(
