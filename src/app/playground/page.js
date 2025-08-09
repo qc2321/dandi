@@ -1,13 +1,13 @@
 "use client";
 import { useState } from "react";
-import { useRouter } from "next/navigation";
 import { useToast } from "../../hooks/useToast";
 import Toast from "../../components/Toast";
 
 export default function PlaygroundPage() {
     const [apiKey, setApiKey] = useState("");
+    const [githubUrl, setGithubUrl] = useState("");
     const [isLoading, setIsLoading] = useState(false);
-    const router = useRouter();
+    const [result, setResult] = useState(null);
     const { toast, showSuccessToast, showErrorToast, hideToast } = useToast();
 
     const handleSubmit = async (e) => {
@@ -16,21 +16,43 @@ export default function PlaygroundPage() {
             showErrorToast("Please enter an API key");
             return;
         }
+        if (!githubUrl.trim()) {
+            showErrorToast("Please enter a GitHub URL");
+            return;
+        }
 
         setIsLoading(true);
+        setResult(null);
 
         try {
-            // Navigate to protected route with API key
-            router.push(`/protected?key=${encodeURIComponent(apiKey)}`);
+            const response = await fetch('/api/github-summarizer', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'x-api-key': apiKey
+                },
+                body: JSON.stringify({ githubUrl })
+            });
+
+            const data = await response.json();
+
+            if (response.ok && data.success) {
+                setResult(data);
+                showSuccessToast("Repository summarized successfully!");
+            } else {
+                showErrorToast(data.message || "Failed to summarize repository");
+            }
         } catch (error) {
+            console.error('Error:', error);
             showErrorToast("An error occurred. Please try again.");
+        } finally {
             setIsLoading(false);
         }
     };
 
     return (
         <div className="min-h-screen bg-gray-50 flex items-center justify-center p-4">
-            <div className="max-w-md w-full">
+            <div className="max-w-4xl w-full">
                 <div className="bg-white rounded-2xl shadow-xl p-4 sm:p-6 lg:p-8">
                     <div className="text-center mb-6 sm:mb-8">
                         <div className="inline-block w-10 h-10 sm:w-12 sm:h-12 bg-gradient-to-tr from-blue-400 via-yellow-300 to-red-400 rounded-xl flex items-center justify-center mb-3 sm:mb-4">
@@ -39,11 +61,11 @@ export default function PlaygroundPage() {
                                 <rect x="8" y="2" width="8" height="4" rx="1" fill="#e0e7ef" />
                             </svg>
                         </div>
-                        <h1 className="text-xl sm:text-2xl font-bold text-gray-900 mb-2">API Playground</h1>
-                        <p className="text-gray-600 text-sm sm:text-base">Enter your API key to test access to protected pages</p>
+                        <h1 className="text-xl sm:text-2xl font-bold text-gray-900 mb-2">GitHub Repository Summarizer</h1>
+                        <p className="text-gray-600 text-sm sm:text-base">Enter your API key and GitHub URL to get a summary of the repository</p>
                     </div>
 
-                    <form onSubmit={handleSubmit} className="space-y-4 sm:space-y-6">
+                    <form onSubmit={handleSubmit} className="space-y-4 sm:space-y-6 mb-6">
                         <div>
                             <label htmlFor="apiKey" className="block text-sm font-medium text-gray-700 mb-2">
                                 API Key
@@ -60,6 +82,21 @@ export default function PlaygroundPage() {
                             />
                         </div>
 
+                        <div>
+                            <label htmlFor="githubUrl" className="block text-sm font-medium text-gray-700 mb-2">
+                                GitHub Repository URL
+                            </label>
+                            <input
+                                type="url"
+                                id="githubUrl"
+                                value={githubUrl}
+                                onChange={(e) => setGithubUrl(e.target.value)}
+                                className="w-full px-3 sm:px-4 py-2 sm:py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors text-sm sm:text-base bg-white text-gray-900 placeholder-gray-500"
+                                placeholder="https://github.com/owner/repository"
+                                required
+                            />
+                        </div>
+
                         <button
                             type="submit"
                             disabled={isLoading}
@@ -71,17 +108,84 @@ export default function PlaygroundPage() {
                                         <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
                                         <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
                                     </svg>
-                                    Validating...
+                                    Summarizing...
                                 </div>
                             ) : (
-                                "Validate API Key"
+                                "Summarize Repository"
                             )}
                         </button>
                     </form>
 
+                    {result && (
+                        <div className="mt-6 space-y-6">
+                            <div className="border-t pt-6">
+                                <h2 className="text-lg font-semibold text-gray-900 mb-4">Results</h2>
+
+                                {/* API Key Info */}
+                                <div className="bg-gray-50 rounded-lg p-4 mb-4">
+                                    <h3 className="text-sm font-medium text-gray-700 mb-2">API Key Information</h3>
+                                    <div className="grid grid-cols-1 sm:grid-cols-3 gap-2 text-sm">
+                                        <div><span className="font-medium">Name:</span> {result.data.name}</div>
+                                        <div><span className="font-medium">Usage:</span> {result.data.usage}/{result.data.limit}</div>
+                                        <div><span className="font-medium">ID:</span> {result.data.id}</div>
+                                    </div>
+                                </div>
+
+                                {/* Repository Info */}
+                                {result.data.repository_info && (
+                                    <div className="bg-blue-50 rounded-lg p-4 mb-4">
+                                        <h3 className="text-sm font-medium text-gray-700 mb-2">Repository Information</h3>
+                                        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-2 text-sm">
+                                            <div><span className="font-medium">Stars:</span> {result.data.repository_info.stars}</div>
+                                            <div><span className="font-medium">Forks:</span> {result.data.repository_info.forks}</div>
+                                            <div><span className="font-medium">Language:</span> {result.data.repository_info.language}</div>
+                                            <div><span className="font-medium">Open Issues:</span> {result.data.repository_info.open_issues}</div>
+                                            <div><span className="font-medium">License:</span> {result.data.repository_info.license}</div>
+                                            <div><span className="font-medium">Default Branch:</span> {result.data.repository_info.default_branch}</div>
+                                        </div>
+                                        {result.data.repository_info.description && (
+                                            <div className="mt-2">
+                                                <span className="font-medium text-sm">Description:</span>
+                                                <p className="text-sm text-gray-600 mt-1">{result.data.repository_info.description}</p>
+                                            </div>
+                                        )}
+                                    </div>
+                                )}
+
+                                {/* Summary */}
+                                {result.data.summary && (
+                                    <div className="bg-green-50 rounded-lg p-4 mb-4">
+                                        <h3 className="text-sm font-medium text-gray-700 mb-2">Repository Summary</h3>
+                                        <p className="text-sm text-gray-800 leading-relaxed">{result.data.summary}</p>
+                                    </div>
+                                )}
+
+                                {/* Cool Facts */}
+                                {result.data.cool_facts && result.data.cool_facts.length > 0 && (
+                                    <div className="bg-yellow-50 rounded-lg p-4">
+                                        <h3 className="text-sm font-medium text-gray-700 mb-2">Cool Facts</h3>
+                                        <ul className="list-disc list-inside text-sm text-gray-800 space-y-1">
+                                            {result.data.cool_facts.map((fact, index) => (
+                                                <li key={index}>{fact}</li>
+                                            ))}
+                                        </ul>
+                                    </div>
+                                )}
+
+                                {/* Error Message */}
+                                {result.data.error && (
+                                    <div className="bg-red-50 rounded-lg p-4">
+                                        <h3 className="text-sm font-medium text-red-700 mb-2">Error</h3>
+                                        <p className="text-sm text-red-600">{result.data.error}</p>
+                                    </div>
+                                )}
+                            </div>
+                        </div>
+                    )}
+
                     <div className="mt-4 sm:mt-6 text-center">
                         <p className="text-xs sm:text-sm text-gray-500">
-                            This will redirect you to a protected route to test your API key validation.
+                            This will analyze the GitHub repository and provide a summary of its contents.
                         </p>
                     </div>
                 </div>

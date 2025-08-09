@@ -4,7 +4,7 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 
 export default function SidebarShell({ children }) {
-    const [sidebarOpen, setSidebarOpen] = useState(false);
+    const [sidebarOpen, setSidebarOpen] = useState(true);
     const pathname = usePathname();
 
     return (
@@ -64,18 +64,18 @@ export default function SidebarShell({ children }) {
                         <span className="inline-block w-5 h-5 flex-shrink-0"><svg fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24"><path d="M16 4h2a2 2 0 012 2v14a2 2 0 01-2 2H6a2 2 0 01-2-2V6a2 2 0 012-2h2" strokeLinecap="round" strokeLinejoin="round" /><rect x="8" y="2" width="8" height="4" rx="1" fill="#e0e7ef" /></svg></span>
                         {sidebarOpen && <span>API Playground</span>}
                     </Link>
-                    <Link href="#" className={`flex items-center gap-2 px-3 py-2 rounded-lg transition-colors text-gray-700 hover:bg-gray-100 ${sidebarOpen ? "justify-start" : "lg:justify-center"}`}>
+                    {/* <Link href="#" className={`flex items-center gap-2 px-3 py-2 rounded-lg transition-colors text-gray-700 hover:bg-gray-100 ${sidebarOpen ? "justify-start" : "lg:justify-center"}`}>
                         <span className="inline-block w-5 h-5 flex-shrink-0"><svg fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24"><path d="M8 17l4-4-4-4m8 8l-4-4 4-4" strokeLinecap="round" strokeLinejoin="round" /></svg></span>
                         {sidebarOpen && <span>Use Cases</span>}
-                    </Link>
+                    </Link> */}
                     <Link href="#" className={`flex items-center gap-2 px-3 py-2 rounded-lg transition-colors text-gray-700 hover:bg-gray-100 ${sidebarOpen ? "justify-start" : "lg:justify-center"}`}>
                         <span className="inline-block w-5 h-5 flex-shrink-0"><svg fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24"><path d="M12 8c-1.657 0-3 1.343-3 3s1.343 3 3 3 3-1.343 3-3-1.343-3-3-3zm0 0V4m0 16v-4" strokeLinecap="round" strokeLinejoin="round" /></svg></span>
                         {sidebarOpen && <span>Billing</span>}
                     </Link>
-                    <Link href="#" className={`flex items-center gap-2 px-3 py-2 rounded-lg transition-colors text-gray-700 hover:bg-gray-100 ${sidebarOpen ? "justify-start" : "lg:justify-center"}`}>
+                    {/* <Link href="#" className={`flex items-center gap-2 px-3 py-2 rounded-lg transition-colors text-gray-700 hover:bg-gray-100 ${sidebarOpen ? "justify-start" : "lg:justify-center"}`}>
                         <span className="inline-block w-5 h-5 flex-shrink-0"><svg fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24"><path d="M12 4v16m8-8H4" strokeLinecap="round" strokeLinejoin="round" /></svg></span>
                         {sidebarOpen && <span>Settings</span>}
-                    </Link>
+                    </Link> */}
                     <a href="#" target="_blank" rel="noopener noreferrer" className={`flex items-center gap-2 px-3 py-2 rounded-lg transition-colors text-gray-700 hover:bg-gray-100 ${sidebarOpen ? "justify-start" : "lg:justify-center"}`}>
                         <span className="inline-block w-5 h-5 flex-shrink-0"><svg fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24"><path d="M8 16v-1a4 4 0 014-4h4m0 0V7m0 4l-4-4m4 4l4-4" strokeLinecap="round" strokeLinejoin="round" /></svg></span>
                         {sidebarOpen && <span>Documentation</span>}
